@@ -5,7 +5,7 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | v0.2 — Üç Motor & Sinyal (Faz -1) · E5–E8 tamam |
+| **Aktif sürüm** | v0.2 — Üç Motor & Sinyal (Faz -1) · E5–E9 tamam (3 Motor bitti) |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
 | **Genel durum** | ✅ v0.1 (E1–E4) + v0.2/E5 veri modeli tamam. Yerel Postgres'te migrate + idempotency + immutability + sinyal tekilliği test edildi. Railway deploy doğrulaması bekliyor. |
@@ -27,12 +27,17 @@
 - [x] **E8** Motor B (Network Çekme & Aktivasyon) — `engine/motorB.ts`: saf `networkSignal`
       (0→🔴, hedef altı→🟡, hedef+→🟢), `processNetworkWeek` (hafta-bazlı idempotent görüşme görevleri +
       sinyal; hedef config'ten). Entegrasyon testi geçti (dolu hafta 🟢, network'süz hafta 🔴+eskalasyon).
+- [x] **E9** Motor C (Rol-Bazlı Denetim) — `engine/motorC.ts`: `auditSignal` (yokluk),
+      `opexSignal` (eşik), `processAuditAbsence`, `processOpex` (dönem-bazlı idempotent).
+      **Guardrail sistemik:** `escalate` artık icra üretmeme kuralına uyar (audit_only org veya
+      "icra etme" aksiyonu → görev YOK, sadece yorum+revizyon taslağı). Entegrasyon: Fevup yokluk→görev,
+      Marqby denetim→görev yok (yalnız taslak), OPEX %75→görev.
 - [x] **Tasarım (E14 hazırlık):** `docs/DESIGN.md` + `ui/src/styles/tokens.css` (Ariwon ailesinden, ADR-0004).
 
-## Sıradaki Adım
-1. Railway'de servis + Postgres bağlanıp ilk deploy (health yeşil) — İNSAN tarafı.
-2. v0.2 devam: **E9 Motor C** (Rol-bazlı denetim: Fevup/Marqby yokluk + OPEX eşik).
-3. Ardından E10 Governance, E11 Haftalık Odak.
+## Sıradaki Adım (v0.2'yi bitir)
+1. **E10 Governance** — onay akışı (`approveNotification`: yalnız can_approve=true İNSAN; audit kaydı).
+2. **E11 Haftalık Odak Üreteci** — açık 🔴/🟡 sinyaller + ≤90g task → "XX. Hafta MTFG Odak" taslağı.
+3. v0.2 bitince: Railway deploy / istenirse UI preview.
 
 ## Açık Sorular / Bekleyenler
 - Railway proje/Postgres bağlantı bilgileri (İNSAN sağlayacak).

@@ -15,6 +15,13 @@ interface TriggerRow {
   red: string | null;
   action: string | null;
   dashboard: string;
+  /** İlgili iştirak sadece denetim rolünde mi (icra üretilmez)? */
+  audit_only: boolean;
+}
+
+/** Bu tetikleyici icra (görev) üretmez mi? audit_only org veya "icra etme" aksiyonu. */
+function isNoExecution(trigger: TriggerRow): boolean {
+  return trigger.audit_only || (trigger.action?.includes("icra etme") ?? false);
 }
 
 /**
@@ -57,12 +64,17 @@ export async function writeSignal(params: {
  */
 export async function escalate(trigger: TriggerRow): Promise<{
   notificationId: number;
-  taskId: number;
+  taskId: number | null;
 }> {
+  const noExec = isNoExecution(trigger);
   const subject = `🔴 ${trigger.org_label} · ${trigger.source ?? "Tetikleyici #" + trigger.id}`;
-  const draft = trigger.action
+  const draftBase = trigger.action
     ? `${trigger.action}\n\nGerekçe: ${trigger.red ?? "kırmızı eşik aşıldı"}`
     : (trigger.red ?? "Kırmızı sinyal — aksiyon gerekli.");
+  // Denetim rolü: yorum + revizyon önerisi, icra üretilmez.
+  const draft = noExec
+    ? `Yorum + revizyon önerisi (icra üretilmez):\n${draftBase}`
+    : draftBase;
 
   const notif = await pool.query<{ id: number }>(
     `INSERT INTO notifications (priority, subject, draft_text, trigger_id)
@@ -70,32 +82,37 @@ export async function escalate(trigger: TriggerRow): Promise<{
     [subject, draft, trigger.id]
   );
 
-  const task = await pool.query<{ id: number }>(
-    `INSERT INTO tasks
-       (source, org_slug, function, responsible_role, description,
-        expected_output, due_date, signal, trigger_id, status)
-     VALUES ($1, $2, $3, $4, $5, $6, CURRENT_DATE, 'RED', $7, 'ACIK')
-     RETURNING id`,
-    [
-      `Tetikleyici #${trigger.id}`,
-      trigger.org_slug,
-      trigger.function,
-      trigger.responsible_role,
-      trigger.action ?? "Acil aksiyon",
-      trigger.red ?? "Kırmızı eşik aşıldı",
-      trigger.id,
-    ]
-  );
+  // Denetim rolünde (audit_only / "icra etme") görev açılmaz.
+  let taskId: number | null = null;
+  if (!noExec) {
+    const task = await pool.query<{ id: number }>(
+      `INSERT INTO tasks
+         (source, org_slug, function, responsible_role, description,
+          expected_output, due_date, signal, trigger_id, status)
+       VALUES ($1, $2, $3, $4, $5, $6, CURRENT_DATE, 'RED', $7, 'ACIK')
+       RETURNING id`,
+      [
+        `Tetikleyici #${trigger.id}`,
+        trigger.org_slug,
+        trigger.function,
+        trigger.responsible_role,
+        trigger.action ?? "Acil aksiyon",
+        trigger.red ?? "Kırmızı eşik aşıldı",
+        trigger.id,
+      ]
+    );
+    taskId = task.rows[0]!.id;
+  }
 
   await recordAudit({
     actor: Actor.SYSTEM,
     action: "ESCALATE",
     entity: "trigger",
     entityId: String(trigger.id),
-    detail: { notificationId: notif.rows[0]!.id, taskId: task.rows[0]!.id },
+    detail: { notificationId: notif.rows[0]!.id, taskId, noExecution: noExec },
   });
 
-  return { notificationId: notif.rows[0]!.id, taskId: task.rows[0]!.id };
+  return { notificationId: notif.rows[0]!.id, taskId };
 }
 
 /**
@@ -107,9 +124,12 @@ export async function processObservation(
   entityKey?: string | null
 ): Promise<{ signal: Signal; signalId: number | null; escalated: boolean }> {
   const { rows } = await pool.query<TriggerRow>(
-    `SELECT id, source, org_slug, org_label, function, responsible_role,
-            green, yellow, red, action, dashboard
-     FROM triggers WHERE id = $1 AND active = true`,
+    `SELECT t.id, t.source, t.org_slug, t.org_label, t.function, t.responsible_role,
+            t.green, t.yellow, t.red, t.action, t.dashboard,
+            COALESCE(o.audit_only, false) AS audit_only
+     FROM triggers t
+     LEFT JOIN orgs o ON o.slug = t.org_slug
+     WHERE t.id = $1 AND t.active = true`,
     [triggerId]
   );
   const trigger = rows[0];

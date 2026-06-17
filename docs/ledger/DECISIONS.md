@@ -32,3 +32,10 @@
 - **Karar:** Premium koyu mod + elektrik aksan + "canlı kalp" sinyal estetiği benimsenir. Sinyal renkleri Ariwon paletiyle hizalanır (Flow Teal→🟢, WIN Gold→🟡, Vibe Coral→🔴). Primary hue ayrıştırılır (`#5B3FFF`→`#5B47FF` "Signal Indigo"), isimlendirme MTFG'ye özgü; WIN/HUNT/FLOW sloganları kullanılmaz. Spec `docs/DESIGN.md`, token'lar `ui/src/styles/tokens.css`.
 - **Gerekçe:** Aynı aileden his, özgün kimlik; telif/özgünlük güvencesi. E14'te uygulanır.
 - **Durum:** ✅ Kabul (İNSAN talebi, 2026-06-17). Uygulama: v0.3 / E14.
+
+## ADR-0005 — "İcra üretmeme" guardrail'ı sistemik
+- **Tarih:** 2026-06-17
+- **Bağlam:** Denetim rolündeki iştiraklerde (Marqby; Fevup denetim tetikleyicileri) sistem icra üretmemeli; yalnızca yorum + revizyon önerisi vermeli.
+- **Karar:** `escalate` rol-duyarlı: `org.audit_only = true` VEYA tetikleyici aksiyonu "icra etme" içeriyorsa görev açılmaz, sadece "icra üretilmez" ön ekli yorum+revizyon taslağı (Bildirim Kutusu) oluşur.
+- **Gerekçe:** Rolün dışına çıkmama guardrail'i; tek noktada (escalate) uygulanınca tüm motorlar için tutarlı.
+- **Durum:** ✅ Kabul. Entegrasyonla doğrulandı (Marqby denetim → görev yok).

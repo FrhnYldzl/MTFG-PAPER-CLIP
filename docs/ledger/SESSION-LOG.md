@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #6 — v0.2 / E9 Motor C (Denetim) + icra-üretmeme guardrail
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | Motor C: `engine/motorC.ts` (`auditSignal`, `opexSignal`, `processAuditAbsence`, `processOpex`). `escalate` rol-duyarlı yapıldı: audit_only org veya "icra etme" aksiyonunda görev açılmaz, yalnız "icra üretilmez" yorum+revizyon taslağı (ADR-0005). 7 birim testi + gerçek Postgres entegrasyonu geçti (Fevup yokluk→görev VAR, Marqby denetim→görev YOK, OPEX %75→görev VAR, 3 bildirim). build/typecheck/test 33/33 yeşil. 3 Motor tamam. |
+| **İNSAN (Ferhan)** | "Devam" → E9 onaylandı. "Deploy en sonda; gerekirse preview isteyebilirim; önce ürünü bitir." |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.2/E9) |
+
+**Sıradaki:** E10 Governance + E11 Haftalık Odak → v0.2 tamam.
+
+---
+
 ## 2026-06-17 · Oturum #5 — v0.2 / E8 Motor B (Network)
 
 | Aktör | Kayıt |
