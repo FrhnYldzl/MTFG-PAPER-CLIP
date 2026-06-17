@@ -15,6 +15,14 @@
 
 **Sıradaki:** İNSAN onayı → E15 Config/Hedef, E16 Rutin Keşfi.
 
+## 2026-06-17 · Oturum #12b — UI rafinasyon: metrik kartı + font sadakati (tekrar vurgu)
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | 5 tasarım dosyası tam okundu. Ariwon app dashboard imza öğeleri eklendi: ink **metrik kartı + bar grafik** (hot bar kırmızı, panel başına açık sinyal), alt **runner**. Font linki Ariwon ağırlıklarına genişletildi (Playfair 400-700+italic, Hanken 300-800). Font ailesine sadakat teyit: web app Google Fonts + preview gerçek TTF. UI build yeşil; preview yeniden gösterildi. |
+| **İNSAN (Ferhan)** | "Font ailesi önemli, bağlı kal!!" (tekrar). |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (UI rafinasyon) |
+
 ---
 
 ## 2026-06-17 · Oturum #11 — v0.3 / E12 Scheduler (ritim cron'ları)

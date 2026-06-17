@@ -63,12 +63,28 @@ p(txt(MX, 100, "Komuta ", 44, C.ink, { f: DISP, w: 500 }));
 p(txt(MX+222, 100, "Paneli", 44, C.red, { f: DISP, w: 500, i: true }));
 p(txt(MX, 126, "Ritim → Rutin → Tetikleyici → Sinyal → Odak", 14, C.ink, { fo: 0.6 }));
 
-// insight (ink banner)
-const inY = 148, inH = 104;
-p(rect(MX, inY, MW, inH, 16, C.ink));
-p(txt(MX+28, inY+40, "Bu hafta 2 kırmızı, 2 sarı sinyal açık. En kritik: Juris · Tahsilat takibi.", 19, C.paper, { f: DISP, w: 500 }));
-p(txt(MX+28, inY+68, "Haftalık odak taslağı hazır — onayını bekliyor.", 19, C.paper, { f: DISP, w: 500 }));
-p(txt(MX+28, inY+92, "● 7 açık sinyal · 3 onay bekliyor · dış gönderim yok", 12, C.paper, { f: MONO, fo: 0.7 }));
+// insight + metric band (ink)
+const inY = 148, inH = 128;
+const insW = MW * 0.6, metW = MW - insW - 18;
+p(rect(MX, inY, insW, inH, 16, C.ink));
+p(txt(MX+28, inY+42, "Bu hafta 2 kırmızı, 2 sarı sinyal açık.", 19, C.paper, { f: DISP, w: 500 }));
+p(txt(MX+28, inY+70, "En kritik: Juris · Tahsilat takibi. Haftalık odak hazır — onay bekliyor.", 16, C.paper, { f: DISP, w: 500, fo: 0.92 }));
+p(txt(MX+28, inY+108, "● 7 açık sinyal · 3 onay bekliyor · dış gönderim yok", 12, C.paper, { f: MONO, fo: 0.7 }));
+// metric card with bar chart (last/hot bar red)
+const mX = MX + insW + 18;
+p(rect(mX, inY, metW, inH, 16, C.ink));
+p(txt(mX+22, inY+34, "AÇIK SİNYAL · PANEL BAŞINA", 10.5, C.red, { f: MONO, ls: 0.6 }));
+p(txt(mX+22, inY+62, "7", 30, C.paper, { w: 700 }));
+p(txt(mX+58, inY+62, "▲ 4 aksiyon", 13, C.live, { w: 600 }));
+const bars = [1, 2, 1, 1, 2, 0]; // panel 0..5 açık sinyal (5_ODAK=2 hot)
+const bMax = Math.max(...bars), bw = (metW - 44 - 5*8) / 6;
+let bx = mX + 22; const bBase = inY + inH - 30;
+bars.forEach((v, i) => {
+  const bh = Math.max(6, (v / bMax) * 56);
+  p(rect(bx, bBase - bh, bw, bh, 4, i === 4 ? C.red : C.paper, i === 4 ? {} : { fo: 0.18 }));
+  p(txt(bx + bw/2, bBase + 14, String(i), 9.5, C.paper, { f: MONO, anchor: "middle", fo: 0.5 }));
+  bx += bw + 8;
+});
 
 // signal strip
 const stY = inY + inH + 22;
@@ -164,6 +180,10 @@ for (const [id, desc, org, role, due, sig, st] of rows) {
   p(`<line x1="${MX+22}" y1="${tr+16}" x2="${MX+MW-22}" y2="${tr+16}" stroke="${C.ink}" stroke-opacity="0.08"/>`);
   tr += 42;
 }
+
+// alt runner
+p(txt(MX, H-18, "MTFG · A FEVUP × JURIS COMPANY", 9.5, C.ink, { f: MONO, fo: 0.32, ls: 1.4 }));
+p(txt(MX+MW, H-18, "CANLI KALP · MMXXVI", 9.5, C.ink, { f: MONO, fo: 0.32, ls: 1.4, anchor: "end" }));
 
 p(`</svg>`);
 

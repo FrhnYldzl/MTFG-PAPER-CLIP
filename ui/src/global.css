@@ -61,14 +61,28 @@ body {
 .title .hl { color: var(--red); font-style: italic; }
 .subtitle { margin-top: 12px; font-size: 15px; opacity: 0.6; }
 
-/* ── Insight (ink) banner ── */
+/* ── Insight + Metric band ── */
+.band { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; margin: 24px 0; }
 .insight {
   background: var(--ink); color: var(--paper); border-radius: var(--radius-lg);
-  padding: 28px 32px; margin: 24px 0; box-shadow: var(--soft);
+  padding: 28px 32px; box-shadow: var(--soft); display: flex; flex-direction: column;
 }
 .insight .lead { font-family: var(--font-display); font-weight: 500; font-size: 23px; line-height: 1.4; }
 .insight .lead .em { color: #e9b3ad; font-style: italic; }
-.insight .conf { font-family: var(--font-mono); font-size: 12px; opacity: 0.7; margin-top: 14px; }
+.insight .conf { font-family: var(--font-mono); font-size: 12px; opacity: 0.7; margin-top: auto; padding-top: 16px; }
+
+.metric { background: var(--ink); color: var(--paper); border-radius: var(--radius-lg); padding: 24px 26px; box-shadow: var(--soft); display: flex; flex-direction: column; }
+.metric .mlabel { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--red); text-transform: uppercase; }
+.metric .mbig { font-family: var(--font-body); font-weight: 700; font-size: 40px; letter-spacing: -0.02em; margin-top: 4px; }
+.metric .mbig small { font-size: 16px; color: var(--live-soft); font-weight: 600; }
+.metric .bars { display: flex; align-items: flex-end; gap: 8px; height: 84px; margin-top: auto; }
+.metric .bars .bar { flex: 1; background: rgba(243, 239, 231, 0.18); border-radius: 5px; min-height: 4px; }
+.metric .bars .bar.hot { background: var(--red); }
+.metric .blabels { display: flex; gap: 8px; margin-top: 8px; }
+.metric .blabels span { flex: 1; text-align: center; font-family: var(--font-mono); font-size: 10px; opacity: 0.5; }
+
+/* ── Runner (alt) ── */
+.runner-bot { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.32; margin-top: 30px; }
 
 /* ── Signal strip ── */
 .strip { display: flex; height: 10px; border-radius: 100px; overflow: hidden; border: 1px solid var(--line-ink); margin-bottom: 22px; background: #fff; }

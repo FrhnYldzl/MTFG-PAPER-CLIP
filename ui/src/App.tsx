@@ -40,6 +40,14 @@ export function App() {
   const shown = active === "ALL" ? signals : signals.filter((s) => s.dashboard === active);
   const firstRed = signals.find((s) => s.signal === "RED");
 
+  // Panel başına açık sinyal (metrik kartı bar grafiği)
+  const perPanel = DASHBOARDS.map((d) => ({
+    no: d.no,
+    n: signals.filter((s) => s.dashboard === d.key).length,
+  }));
+  const maxPanel = Math.max(1, ...perPanel.map((x) => x.n));
+  const hotPanel = perPanel.reduce((a, b) => (b.n > a.n ? b : a), perPanel[0]);
+
   async function approve(id: number) {
     try { await api.approve(id, "ferhan"); await load(); }
     catch (e) { alert((e as Error).message); }
@@ -82,16 +90,29 @@ export function App() {
         <h1 className="title">Komuta <span className="hl">Paneli</span></h1>
         <div className="subtitle">Ritim → Rutin → Tetikleyici → Sinyal → Odak</div>
 
-        {/* Insight banner (ink) */}
-        <div className="insight">
-          <div className="lead">
-            {firstRed ? (
-              <>Bu hafta <span className="em">{counts.RED} kırmızı</span>, {counts.YELLOW} sarı sinyal açık. En kritik: <span className="em">{firstRed.org_label} · {firstRed.source}</span>. Haftalık odak taslağı hazır — onayını bekliyor.</>
-            ) : (
-              <>Sistem büyük ölçüde <span className="em">yeşil</span>. {counts.YELLOW} sarı sinyal izlemede. Kaygı sistemde, sende değil.</>
-            )}
+        {/* Insight + Metric band (ink) */}
+        <div className="band">
+          <div className="insight">
+            <div className="lead">
+              {firstRed ? (
+                <>Bu hafta <span className="em">{counts.RED} kırmızı</span>, {counts.YELLOW} sarı sinyal açık. En kritik: <span className="em">{firstRed.org_label} · {firstRed.source}</span>. Haftalık odak taslağı hazır — onayını bekliyor.</>
+              ) : (
+                <>Sistem büyük ölçüde <span className="em">yeşil</span>. {counts.YELLOW} sarı sinyal izlemede. Kaygı sistemde, sende değil.</>
+              )}
+            </div>
+            <div className="conf">● {signals.length} açık sinyal · {notifs.length} onay bekliyor · dış gönderim yok</div>
           </div>
-          <div className="conf">● {signals.length} açık sinyal · {notifs.length} onay bekliyor · dış gönderim yok</div>
+          <div className="metric">
+            <div className="mlabel">Açık Sinyal · Panel Başına</div>
+            <div className="mbig">{signals.length} <small>▲ {counts.RED + counts.YELLOW} aksiyon</small></div>
+            <div className="bars">
+              {perPanel.map((x) => (
+                <div key={x.no} className={`bar ${x.no === hotPanel.no && x.n > 0 ? "hot" : ""}`}
+                  style={{ height: `${Math.max(8, (x.n / maxPanel) * 100)}%` }} />
+              ))}
+            </div>
+            <div className="blabels">{perPanel.map((x) => <span key={x.no}>{x.no}</span>)}</div>
+          </div>
         </div>
 
         {/* Signal strip */}
@@ -167,6 +188,11 @@ export function App() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        <div className="runner-bot">
+          <span>MTFG · A Fevup × Juris Company</span>
+          <span>Canlı Kalp · MMXXVI</span>
         </div>
       </main>
     </div>
