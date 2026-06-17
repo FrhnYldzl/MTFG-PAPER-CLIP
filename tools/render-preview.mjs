@@ -1,167 +1,185 @@
-// MTFG Paperclip — Dashboard preview PNG üretici (Ariwon tasarım dili)
-// SVG'yi programatik kurar, @resvg/resvg-js ile PNG'ye çevirir.
+// MTFG Paperclip — Dashboard preview PNG (Ariwon editoryal tasarım dili)
+// paper(cream) + ink(navy) + kiremit kırmızı · serif başlık · mono etiketler
 import { Resvg } from "@resvg/resvg-js";
 import { writeFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+const FD = join(dirname(fileURLToPath(import.meta.url)), "fonts");
 
-const W = 1340, H = 980;
+const W = 1340, H = 1180;
 const C = {
-  bg: "#0A0A0F", surface: "#14141C", surface2: "#1E1E29",
-  text: "#F5F5FF", muted: "#8A8A9E",
-  primary: "#5B47FF", primary2: "#7A5CFF",
-  green: "#00C9B8", yellow: "#FFB800", red: "#FF5C5C",
+  ink: "#0A2240", ink2: "#13305C", paper: "#F3EFE7", paper2: "#E7E0D2",
+  stone: "#8F897B", red: "#BC2F2C", live: "#4E8C6A", yellow: "#C68A30",
+  white: "#FFFFFF",
 };
+const SIG = { RED: C.red, YELLOW: C.yellow, GREEN: C.live };
+const DISP = "'Playfair Display',serif", BODY = "'Hanken Grotesk',sans-serif", MONO = "'JetBrains Mono',monospace";
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const parts = [];
-const p = (s) => parts.push(s);
-
-// helpers
-const rect = (x, y, w, h, r, fill, opts = {}) =>
-  `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}"${opts.fo!=null?` fill-opacity="${opts.fo}"`:""}${opts.stroke?` stroke="${opts.stroke}" stroke-opacity="${opts.so??0.1}"`:""}/>`;
-const txt = (x, y, s, size, fill, opts = {}) =>
-  `<text x="${x}" y="${y}" font-family="${opts.disp?"'Space Grotesk','DejaVu Sans',sans-serif":"'Inter','DejaVu Sans',sans-serif"}" font-size="${size}" fill="${fill}" font-weight="${opts.w||400}"${opts.anchor?` text-anchor="${opts.anchor}"`:""}${opts.ls?` letter-spacing="${opts.ls}"`:""}>${esc(s)}</text>`;
-const dot = (x, y, color) => `<circle cx="${x}" cy="${y}" r="6" fill="${color}"/>`;
+const P = [];
+const p = (s) => P.push(s);
+const rect = (x, y, w, h, r, fill, o = {}) =>
+  `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}"${o.fo!=null?` fill-opacity="${o.fo}"`:""}${o.stroke?` stroke="${o.stroke}" stroke-opacity="${o.so??1}"`:""}/>`;
+const txt = (x, y, s, size, fill, o = {}) =>
+  `<text x="${x}" y="${y}" font-family="${o.f||BODY}" font-size="${size}" fill="${fill}"${o.fo!=null?` fill-opacity="${o.fo}"`:""} font-weight="${o.w||400}"${o.i?` font-style="italic"`:""}${o.anchor?` text-anchor="${o.anchor}"`:""}${o.ls?` letter-spacing="${o.ls}"`:""}>${esc(s)}</text>`;
+const dot = (x, y, c, r = 5) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`;
+const mark = (x, y, s, col) => {
+  const sc = s / 100;
+  return `<g transform="translate(${x},${y}) scale(${sc})">
+    <circle cx="50" cy="50" r="33" fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round" stroke-dasharray="170 37.3" transform="rotate(-58 50 50)"/>
+    <circle cx="50" cy="17" r="6" fill="${C.red}"/></g>`;
+};
 
 p(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`);
-p(`<defs>
-  <radialGradient id="g1" cx="12%" cy="-8%" r="60%"><stop offset="0" stop-color="#5B47FF" stop-opacity="0.18"/><stop offset="1" stop-color="#5B47FF" stop-opacity="0"/></radialGradient>
-  <radialGradient id="g2" cx="100%" cy="0%" r="55%"><stop offset="0" stop-color="#00C9B8" stop-opacity="0.10"/><stop offset="1" stop-color="#00C9B8" stop-opacity="0"/></radialGradient>
-  <linearGradient id="prim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${C.primary}"/><stop offset="1" stop-color="${C.primary2}"/></linearGradient>
-  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-</defs>`);
-// bg
-p(rect(0, 0, W, H, 0, C.bg));
-p(`<rect x="0" y="0" width="${W}" height="${H}" fill="url(#g1)"/><rect x="0" y="0" width="${W}" height="${H}" fill="url(#g2)"/>`);
+p(rect(0, 0, W, H, 0, C.paper));
 
-// ── Sidebar ──
-const SB = 260;
-p(rect(0, 0, SB, H, 0, "#0A0A0F", { fo: 0.6 }));
-p(`<line x1="${SB}" y1="0" x2="${SB}" y2="${H}" stroke="#FFFFFF" stroke-opacity="0.08"/>`);
-p(`<circle cx="32" cy="40" r="6" fill="${C.primary}" filter="url(#glow)"/>`);
-p(txt(48, 38, "MTFG Paperclip", 17, C.text, { disp: true, w: 700 }));
-p(txt(48, 56, "Canlı Kalp · v0.3", 11, C.muted));
-const nav = [["★","Genel Bakış",true],["0","Strateji",false],["1","Harita",false],["2","Ürün · Hizmet · Yatırım",false],["3","Network",false],["4","Denetim",false],["5","Odak",false]];
-let ny = 96;
+// ── Sidebar (ink) ──
+const SB = 264;
+p(rect(0, 0, SB, H, 0, C.ink));
+p(mark(22, 26, 30, C.paper));
+p(txt(62, 42, "Paperclip", 20, C.paper, { w: 600 }));
+p(txt(62, 58, "MTFG · CANLI KALP", 9.5, C.paper, { f: MONO, fo: 0.55, ls: 1.6 }));
+const nav = [["◆","Genel Bakış",true],["0","Strateji",false],["1","Harita",false],["2","Ürün · Hizmet · Yatırım",false],["3","Network",false],["4","Denetim",false],["5","Odak",false]];
+let ny = 104;
 for (const [no, label, active] of nav) {
-  if (active) { p(rect(14, ny, SB-28, 38, 8, C.primary, { fo: 0.12, stroke: C.primary, so: 0.4 })); }
-  p(rect(26, ny+8, 22, 22, 6, C.surface2));
-  p(txt(37, ny+23, no, 11, active?C.text:C.muted, { disp: true, anchor: "middle" }));
-  p(txt(58, ny+24, label, 13, active?C.text:C.muted, { w: active?600:400 }));
-  ny += 44;
+  if (active) p(rect(14, ny, SB-28, 40, 9, C.paper, { fo: 0.10 }));
+  p(rect(26, ny+9, 22, 22, 6, active?C.red:C.paper, active?{}:{ fo: 0.08 }));
+  p(txt(37, ny+24, no, 11, C.paper, { f: MONO, anchor: "middle", fo: active?1:0.85 }));
+  p(txt(58, ny+25, label, 14.5, C.paper, { w: active?600:400, fo: active?1:0.62 }));
+  ny += 46;
 }
+p(txt(22, H-30, "RİTİM · RUTİN · TETİKLEYİCİ · SİNYAL", 9, C.paper, { f: MONO, fo: 0.4, ls: 1.2 }));
 
 // ── Main ──
-const MX = SB + 32;
-// topbar
-p(txt(MX, 50, "Komuta Paneli", 30, C.text, { disp: true, w: 700 }));
-p(txt(MX, 74, "Ritim → Rutin → Tetikleyici → Sinyal → Odak · 17.06.2026", 13, C.muted));
-p(rect(W-300, 28, 180, 36, 18, C.surface, { stroke: "#fff", so: 0.08 }));
-p(txt(W-282, 51, "Bildirim Kutusu", 12, C.muted));
-p(txt(W-150, 51, "3", 13, C.text, { w: 700 }));
-p(`<circle cx="${W-50}" cy="46" r="18" fill="url(#prim)"/>`);
-p(txt(W-50, 51, "FY", 12, "#fff", { w: 700, anchor: "middle" }));
+const MX = SB + 44, MW = W - MX - 44;
+// runner
+p(txt(MX, 40, "MTFG · CANLI KALP · 17.06.2026", 10, C.stone, { f: MONO, ls: 2 }));
+p(rect(W-300, 22, 160, 34, 17, C.white, { stroke: C.ink, so: 0.14 }));
+p(txt(W-282, 44, "Bildirim Kutusu", 12.5, C.ink, { fo: 0.75 }));
+p(txt(W-160, 44, "3", 13, C.ink, { w: 700 }));
+p(`<circle cx="${W-66}" cy="39" r="19" fill="${C.ink2}"/>`);
+p(txt(W-66, 44, "FY", 13, C.paper, { w: 700, anchor: "middle" }));
+// title
+p(txt(MX, 100, "Komuta ", 44, C.ink, { f: DISP, w: 500 }));
+p(txt(MX+222, 100, "Paneli", 44, C.red, { f: DISP, w: 500, i: true }));
+p(txt(MX, 126, "Ritim → Rutin → Tetikleyici → Sinyal → Odak", 14, C.ink, { fo: 0.6 }));
+
+// insight (ink banner)
+const inY = 148, inH = 104;
+p(rect(MX, inY, MW, inH, 16, C.ink));
+p(txt(MX+28, inY+40, "Bu hafta 2 kırmızı, 2 sarı sinyal açık. En kritik: Juris · Tahsilat takibi.", 19, C.paper, { f: DISP, w: 500 }));
+p(txt(MX+28, inY+68, "Haftalık odak taslağı hazır — onayını bekliyor.", 19, C.paper, { f: DISP, w: 500 }));
+p(txt(MX+28, inY+92, "● 7 açık sinyal · 3 onay bekliyor · dış gönderim yok", 12, C.paper, { f: MONO, fo: 0.7 }));
 
 // signal strip
-const stripY = 96, stripW = W - MX - 40;
-p(`<clipPath id="cs"><rect x="${MX}" y="${stripY}" width="${stripW}" height="12" rx="6"/></clipPath>`);
-p(`<g clip-path="url(#cs)">`);
-p(rect(MX, stripY, stripW*0.43, 12, 0, C.green));
-p(rect(MX+stripW*0.43, stripY, stripW*0.28, 12, 0, C.yellow));
-p(rect(MX+stripW*0.71, stripY, stripW*0.29, 12, 0, C.red));
+const stY = inY + inH + 22;
+p(rect(MX, stY, MW, 10, 5, C.white, { stroke: C.ink, so: 0.14 }));
+p(`<clipPath id="cs"><rect x="${MX}" y="${stY}" width="${MW}" height="10" rx="5"/></clipPath><g clip-path="url(#cs)">`);
+p(rect(MX, stY, MW*0.43, 10, 0, C.live));
+p(rect(MX+MW*0.43, stY, MW*0.28, 10, 0, C.yellow));
+p(rect(MX+MW*0.71, stY, MW*0.29, 10, 0, C.red));
 p(`</g>`);
 
-// stat cards
-const stats = [["AÇIK SİNYAL","7",C.text],["KIRMIZI","2",C.red],["SARI","2",C.yellow],["ONAY BEKLEYEN","3",C.primary]];
-const cardW = (stripW - 3*16) / 4;
-let sx = MX, sy = 128;
-for (const [label, val, col] of stats) {
-  p(rect(sx, sy, cardW, 92, 16, C.surface, { stroke: "#fff", so: 0.08 }));
-  p(txt(sx+18, sy+28, label, 10, C.muted, { ls: 0.5 }));
-  p(txt(sx+18, sy+72, val, 38, col, { disp: true, w: 700 }));
-  sx += cardW + 16;
+// stats
+const stats = [["AÇIK SİNYAL","7",C.ink],["KIRMIZI","2",C.red],["SARI","2",C.yellow],["ONAY BEKLEYEN","3",C.ink]];
+const cw = (MW - 3*18) / 4;
+let sx = MX, sy = stY + 26;
+for (const [l, v, col] of stats) {
+  p(rect(sx, sy, cw, 96, 16, C.white, { stroke: C.ink, so: 0.14 }));
+  p(txt(sx+20, sy+30, l, 10, C.ink, { f: MONO, fo: 0.55, ls: 0.6 }));
+  p(txt(sx+20, sy+76, v, 44, col, { w: 700 }));
+  sx += cw + 18;
 }
 
 // columns
-const colY = 244;
-const leftW = (stripW)*0.58, rightW = stripW - leftW - 16;
-// Signals card
-const leftH = 392;
-p(rect(MX, colY, leftW, leftH, 16, C.surface, { stroke: "#fff", so: 0.08 }));
-p(txt(MX+18, colY+30, "Sinyaller", 17, C.text, { disp: true, w: 600 }));
-p(txt(MX+110, colY+30, "tüm paneller", 12, C.muted));
+const colY = sy + 96 + 22;
+const lw = MW*0.58, rw = MW - lw - 18, colH = 396;
+// signals
+p(rect(MX, colY, lw, colH, 16, C.white, { stroke: C.ink, so: 0.14 }));
+p(txt(MX+22, colY+34, "Sinyaller", 21, C.ink, { f: DISP, w: 500 }));
+p(txt(MX+140, colY+34, "TÜM PANELLER", 10, C.stone, { f: MONO, ls: 1 }));
 const signals = [
-  ["red","Juris · Tahsilat takibi",">=14g gecikme → Tahsilat görevi + uyarı","1"],
-  ["red","Fevup · Fevup Haftalık Özet","+2g gelmedi → İç bildirim taslağı","4"],
-  ["yellow","Juris · Network ritmi (Motor B)","1 görüşme (hedef altı) → Network çek","3"],
-  ["yellow","Meridyen · Toplantı (Motor A)","50s follow-up yok → Hatırlatma + görev","5"],
-  ["green","Juris · OPEX karşılama",">=OPEX","1"],
-  ["green","Tümü · Haftalık odak üretimi","üretildi","5"],
-  ["green","Arivon · Product Hunt","top 5","2"],
+  ["RED","Juris · Tahsilat takibi",">=14g gecikme → Tahsilat görevi + uyarı","1"],
+  ["RED","Fevup · Fevup Haftalık Özet","+2g gelmedi → İç bildirim taslağı","4"],
+  ["YELLOW","Juris · Network ritmi (Motor B)","1 görüşme (hedef altı) → Network çek","3"],
+  ["YELLOW","Meridyen · Toplantı (Motor A)","50s follow-up yok → Hatırlatma + görev","5"],
+  ["GREEN","Juris · OPEX karşılama",">=OPEX","1"],
+  ["GREEN","Tümü · Haftalık odak üretimi","üretildi","5"],
+  ["GREEN","Arivon · Product Hunt","top 5","2"],
 ];
-let ry = colY + 56;
+let ry = colY + 66;
 for (const [sig, title, meta, tag] of signals) {
-  p(dot(MX+26, ry+2, C[sig]));
-  p(txt(MX+46, ry+6, title, 13, C.text, { w: 600 }));
-  p(txt(MX+46, ry+24, meta, 11, C.muted));
-  p(rect(leftW+MX-44, ry-9, 26, 20, 6, C.surface2, { stroke: "#fff", so: 0.08 }));
-  p(txt(leftW+MX-31, ry+5, tag, 11, C.muted, { anchor: "middle" }));
+  p(dot(MX+26, ry+1, SIG[sig], 4.5));
+  p(txt(MX+44, ry+5, title, 14, C.ink, { w: 600 }));
+  p(txt(MX+44, ry+23, meta, 12, C.ink, { fo: 0.6 }));
+  p(rect(MX+lw-50, ry-9, 28, 20, 10, C.white, { stroke: C.ink, so: 0.14 }));
+  p(txt(MX+lw-36, ry+5, tag, 10.5, C.stone, { f: MONO, anchor: "middle" }));
   ry += 47;
 }
-
-// Inbox card
-const rx = MX + leftW + 16;
-p(rect(rx, colY, rightW, leftH, 16, C.surface, { stroke: "#fff", so: 0.08 }));
-p(txt(rx+18, colY+30, "Bildirim Kutusu", 17, C.text, { disp: true, w: 600 }));
+// inbox
+const rx = MX + lw + 18;
+p(rect(rx, colY, rw, colH, 16, C.white, { stroke: C.ink, so: 0.14 }));
+p(txt(rx+22, colY+34, "Bildirim Kutusu", 21, C.ink, { f: DISP, w: 500 }));
 const inbox = [
-  ["Yüksek",C.red,"Juris · Tahsilat takibi","Tahsilat görevi + uyarı"],
-  ["Yüksek",C.red,"Fevup · Fevup Haftalık Özet","İç bildirim taslağı (gönderim yok)"],
-  ["Orta",C.yellow,"2026-W25 — MTFG Odak","Kırmızı (2) · Sarı (2) · görev (2)"],
+  ["YÜKSEK",C.red,"Juris · Tahsilat takibi","Tahsilat görevi + uyarı · >=14g"],
+  ["YÜKSEK",C.red,"Fevup · Haftalık Özet","İç bildirim taslağı (gönderim yok)"],
+  ["ORTA",C.yellow,"2026-W25 — MTFG Odak","Kırmızı 2 · Sarı 2 · görev 2"],
 ];
-let iy = colY + 50;
+let iy = colY + 54;
 for (const [prio, pcol, subj, body] of inbox) {
-  p(rect(rx+14, iy, rightW-28, 96, 12, C.surface2, { stroke: "#fff", so: 0.06 }));
-  p(dot(rx+30, iy+22, pcol));
-  p(txt(rx+44, iy+26, subj, 12, C.text, { w: 600 }));
-  p(rect(rx+rightW-78, iy+12, 60, 20, 6, pcol, { fo: 0.14 }));
-  p(txt(rx+rightW-48, iy+26, prio, 10, pcol, { w: 700, anchor: "middle" }));
-  p(txt(rx+44, iy+48, body, 10.5, C.muted));
-  p(txt(rx+44, iy+66, "⛔ Dış gönderim yok — onay yalnızca insanın kararı", 9.5, C.green));
-  p(rect(rx+44, iy+74, 140, 16, 6, C.primary, { fo: 0.18, stroke: C.primary, so: 0.5 }));
-  p(txt(rx+114, iy+86, "İNSAN olarak onayla", 9.5, C.text, { anchor: "middle" }));
+  p(rect(rx+16, iy, rw-32, 98, 14, C.paper, { stroke: C.ink, so: 0.12 }));
+  p(txt(rx+32, iy+28, subj, 13.5, C.ink, { w: 600 }));
+  p(rect(rx+rw-92, iy+13, 60, 20, 10, pcol, { fo: 0.15 }));
+  p(txt(rx+rw-62, iy+27, prio, 9, pcol, { f: MONO, anchor: "middle", ls: 0.5 }));
+  p(txt(rx+32, iy+50, body, 11, C.ink, { fo: 0.6 }));
+  p(txt(rx+32, iy+68, "⛔ Dış gönderim yok — onay insanın kararı", 9, C.live, { f: MONO }));
+  p(rect(rx+32, iy+76, 150, 18, 9, C.red));
+  p(txt(rx+107, iy+88, "İNSAN olarak onayla", 9.5, C.paper, { w: 600, anchor: "middle" }));
   iy += 110;
 }
 
-// Task table
-const tY = colY + leftH + 16, tH = H - tY - 24;
-p(rect(MX, tY, stripW, tH, 16, C.surface, { stroke: "#fff", so: 0.08 }));
-p(txt(MX+18, tY+30, "Odak — İş Kalemleri", 17, C.text, { disp: true, w: 600 }));
-const cols = [["#",MX+18],["AÇIKLAMA",MX+70],["İŞTİRAK",MX+560],["SORUMLU",MX+700],["HEDEF",MX+860],["SİNYAL",MX+960],["DURUM",MX+1050]];
-for (const [h, cx] of cols) p(txt(cx, tY+56, h, 10, C.muted, { ls: 0.4 }));
-p(`<line x1="${MX+18}" y1="${tY+64}" x2="${MX+stripW-18}" y2="${tY+64}" stroke="#fff" stroke-opacity="0.08"/>`);
+// task table
+const tY = colY + colH + 22, tH = H - tY - 40;
+p(rect(MX, tY, MW, tH, 16, C.white, { stroke: C.ink, so: 0.14 }));
+p(txt(MX+22, tY+34, "Odak — İş Kalemleri", 21, C.ink, { f: DISP, w: 500 }));
+const cols = [["#",MX+22],["AÇIKLAMA",MX+74],["İŞTİRAK",MX+560],["SORUMLU",MX+700],["HEDEF",MX+862],["SİNYAL",MX+960],["DURUM",MX+1050]];
+for (const [h, cx] of cols) p(txt(cx, tY+62, h, 10, C.ink, { f: MONO, fo: 0.5, ls: 0.6 }));
+p(`<line x1="${MX+22}" y1="${tY+72}" x2="${MX+MW-22}" y2="${tY+72}" stroke="${C.ink}" stroke-opacity="0.14"/>`);
 const rows = [
-  ["11","Tahsilat takibi — gecikmiş fatura","juris","İcracı Ortak","2026-06-20","red","ACIK"],
+  ["11","Tahsilat takibi — gecikmiş fatura","juris","İcracı Ortak","2026-06-20","RED","ACIK"],
   ["12","Toplantı çıktısı gir: Tanışma görüşmesi","meridyen","İcracı Ortak","—",null,"TASLAK"],
   ["13","Network görüşmesi: Ahmet K. (fintech)","juris","İcracı Ortak","—",null,"TASLAK"],
-  ["14","Lead → teklif dönüşü","juris","İcracı Ortak","2026-06-19","yellow","ACIK"],
+  ["14","Lead → teklif dönüşü","juris","İcracı Ortak","2026-06-19","YELLOW","ACIK"],
 ];
-let tr = tY + 90;
+let tr = tY + 100;
 for (const [id, desc, org, role, due, sig, st] of rows) {
-  p(txt(MX+18, tr, id, 12, C.muted));
-  p(txt(MX+70, tr, desc, 12.5, C.text));
-  p(txt(MX+560, tr, org, 12, C.text));
-  p(txt(MX+700, tr, role, 12, C.muted));
-  p(txt(MX+860, tr, due, 12, C.muted));
-  if (sig) p(dot(MX+972, tr-4, C[sig])); else p(txt(MX+966, tr, "—", 12, C.muted));
-  const stc = st==="ACIK"?C.primary:st==="KAPALI"?C.green:C.muted;
-  p(rect(MX+1050, tr-13, 66, 20, 6, stc, { fo: 0.15 }));
-  p(txt(MX+1083, tr, st, 10, stc, { w: 700, anchor: "middle" }));
-  p(`<line x1="${MX+18}" y1="${tr+14}" x2="${MX+stripW-18}" y2="${tr+14}" stroke="#fff" stroke-opacity="0.06"/>`);
-  tr += 40;
+  p(txt(MX+22, tr, id, 12.5, C.ink, { fo: 0.5 }));
+  p(txt(MX+74, tr, desc, 13.5, C.ink));
+  p(txt(MX+560, tr, org, 13, C.ink));
+  p(txt(MX+700, tr, role, 12.5, C.ink, { fo: 0.6 }));
+  p(txt(MX+862, tr, due, 12.5, C.ink, { fo: 0.6 }));
+  if (sig) p(dot(MX+972, tr-4, SIG[sig], 4.5)); else p(txt(MX+966, tr, "—", 12, C.ink, { fo: 0.5 }));
+  const sc = st==="ACIK"?C.ink:st==="KAPALI"?C.live:C.stone;
+  p(rect(MX+1050, tr-13, 70, 20, 10, sc, { fo: 0.12 }));
+  p(txt(MX+1085, tr, st, 9.5, sc, { f: MONO, anchor: "middle", ls: 0.4 }));
+  p(`<line x1="${MX+22}" y1="${tr+16}" x2="${MX+MW-22}" y2="${tr+16}" stroke="${C.ink}" stroke-opacity="0.08"/>`);
+  tr += 42;
 }
 
 p(`</svg>`);
 
-const svg = parts.join("\n");
-const resvg = new Resvg(svg, { fitTo: { mode: "zoom", value: 1.6 }, font: { loadSystemFonts: true } });
-const png = resvg.render().asPng();
-writeFileSync(new URL("../ui/preview.png", import.meta.url), png);
-console.log("ui/preview.png yazıldı:", png.length, "bayt");
+const svg = P.join("\n");
+const resvg = new Resvg(svg, {
+  fitTo: { mode: "zoom", value: 1.6 },
+  font: {
+    loadSystemFonts: false,
+    fontFiles: [
+      join(FD, "PlayfairDisplay.ttf"),
+      join(FD, "PlayfairDisplay-Italic.ttf"),
+      join(FD, "HankenGrotesk.ttf"),
+      join(FD, "JetBrainsMono.ttf"),
+    ],
+    defaultFontFamily: "Hanken Grotesk",
+  },
+});
+writeFileSync(new URL("../ui/preview.png", import.meta.url), resvg.render().asPng());
+console.log("ui/preview.png yazıldı (Ariwon editoryal · gerçek fontlar).");

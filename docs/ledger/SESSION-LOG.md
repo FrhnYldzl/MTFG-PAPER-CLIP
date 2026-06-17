@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #12 — UI yeniden tasarım: gerçek Ariwon dili + font sadakati
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | İNSAN zip'teki gerçek tasarım HTML'lerini yükledi. İlk "koyu/mor SaaS" UI yanlıştı (ADR-0006). Tasarım sistemi gerçek Ariwon diline göre yeniden yazıldı: `tokens.css` (paper/ink/red/live palet), `global.css` (editoryal düzen: navy sidebar + cream gövde + navy insight bandı + mono etiketler), `App.tsx` (hive mark, Playfair serif başlık, dot'lu sinyaller), `index.html` (Playfair Display + Hanken Grotesk + JetBrains Mono). DESIGN.md düzeltildi. Preview render'ı (`tools/render-preview.mjs`) yeniden yazıldı; **gerçek TTF'ler** (`tools/fonts/`) gömülerek font ailesine sadık kalındı (İNSAN vurgusu). UI build yeşil. Preview inline gösterildi (2 kez: önce DejaVu fallback, sonra gerçek fontlar). |
+| **İNSAN (Ferhan)** | "UI'yi paylaştığım tasarıma uyumlu yap, preview'i burada göster" + "Font ailesi önemli, bağlı kal!". |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (UI redesign) |
+
+**Sıradaki:** İNSAN onayı → E15 Config/Hedef, E16 Rutin Keşfi.
+
+---
+
 ## 2026-06-17 · Oturum #11 — v0.3 / E12 Scheduler (ritim cron'ları)
 
 | Aktör | Kayıt |

@@ -33,6 +33,13 @@
 - **Gerekçe:** Aynı aileden his, özgün kimlik; telif/özgünlük güvencesi. E14'te uygulanır.
 - **Durum:** ✅ Kabul (İNSAN talebi, 2026-06-17). Uygulama: v0.3 / E14.
 
+## ADR-0006 — UI tasarımı: gerçek Ariwon editoryal dili (önceki varsayım düzeltildi)
+- **Tarih:** 2026-06-17
+- **Bağlam:** İlk UI, brief'lerden "koyu/mor SaaS" diye yanlış varsayılmıştı. İNSAN zip'teki gerçek tasarım dosyalarını (HTML) paylaştı: editoryal **kâğıt(cream)+navy(ink)+kiremit kırmızı**, Playfair Display + Hanken Grotesk + JetBrains Mono.
+- **Karar:** Dashboard bu gerçek dile göre yeniden tasarlandı. Sinyal renkleri palete uyarlandı (yeşil `#4E8C6A`, ochre `#C68A30`, kırmızı `#BC2F2C`). **Font ailesine sadık kalınır** (İNSAN vurgusu): web app Google Fonts'tan yükler; preview render'a gerçek TTF'ler gömüldü (`tools/fonts/`).
+- **Gerekçe:** Marka tutarlılığı; İNSAN'ın açık talebi.
+- **Durum:** ✅ Kabul. `docs/DESIGN.md` güncellendi; preview onaya sunuldu.
+
 ## ADR-0005 — "İcra üretmeme" guardrail'ı sistemik
 - **Tarih:** 2026-06-17
 - **Bağlam:** Denetim rolündeki iştiraklerde (Marqby; Fevup denetim tetikleyicileri) sistem icra üretmemeli; yalnızca yorum + revizyon önerisi vermeli.
