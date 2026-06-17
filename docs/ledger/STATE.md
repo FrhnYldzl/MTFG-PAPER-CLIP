@@ -5,7 +5,7 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | v0.2 — Üç Motor & Sinyal (Faz -1) · E5–E7 tamam |
+| **Aktif sürüm** | v0.2 — Üç Motor & Sinyal (Faz -1) · E5–E8 tamam |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
 | **Genel durum** | ✅ v0.1 (E1–E4) + v0.2/E5 veri modeli tamam. Yerel Postgres'te migrate + idempotency + immutability + sinyal tekilliği test edildi. Railway deploy doğrulaması bekliyor. |
@@ -24,12 +24,15 @@
       (leadsiz→🔴, follow-up→🟢, saat eşiği 48/72), `processMeeting` (zorunlu intake TASLAK görevi +
       sinyal). `0003`: signals.entity_key → olay-bazlı idempotency (aynı gün çok toplantı ayrı izlenir).
       Pool lazy yapıldı (saf testler DB istemez). Entegrasyon testi geçti.
+- [x] **E8** Motor B (Network Çekme & Aktivasyon) — `engine/motorB.ts`: saf `networkSignal`
+      (0→🔴, hedef altı→🟡, hedef+→🟢), `processNetworkWeek` (hafta-bazlı idempotent görüşme görevleri +
+      sinyal; hedef config'ten). Entegrasyon testi geçti (dolu hafta 🟢, network'süz hafta 🔴+eskalasyon).
 - [x] **Tasarım (E14 hazırlık):** `docs/DESIGN.md` + `ui/src/styles/tokens.css` (Ariwon ailesinden, ADR-0004).
 
 ## Sıradaki Adım
 1. Railway'de servis + Postgres bağlanıp ilk deploy (health yeşil) — İNSAN tarafı.
-2. v0.2 devam: **E8 Motor B** (Network çekme & aktivasyon; haftalık kadans, hedef 20/yıl).
-3. Ardından E9 Motor C (Denetim), E10 Governance, E11 Haftalık Odak.
+2. v0.2 devam: **E9 Motor C** (Rol-bazlı denetim: Fevup/Marqby yokluk + OPEX eşik).
+3. Ardından E10 Governance, E11 Haftalık Odak.
 
 ## Açık Sorular / Bekleyenler
 - Railway proje/Postgres bağlantı bilgileri (İNSAN sağlayacak).

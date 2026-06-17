@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #5 — v0.2 / E8 Motor B (Network)
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | Motor B: `engine/motorB.ts` (`networkSignal` saf + `processNetworkWeek`). Hafta-bazlı idempotent görüşme görevleri (entity_key=weekKey), haftalık hedef config'ten (NetworkHaftalikHedef=1, yıllık 20). 5 birim testi (0→🔴 kabul kriteri) + gerçek Postgres entegrasyonu geçti (dolu hafta 🟢 + 2 görev, network'süz hafta 🔴 + eskalasyon, idempotent). build/typecheck/test 26/26 yeşil. |
+| **İNSAN (Ferhan)** | "Devam edelim" → E8 onaylandı. |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.2/E8) |
+
+**Sıradaki:** E9 Motor C (Rol-bazlı denetim).
+
+---
+
 ## 2026-06-17 · Oturum #4 — v0.2 / E7 Motor A + Tasarım sistemi
 
 | Aktör | Kayıt |
