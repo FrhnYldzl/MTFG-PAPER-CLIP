@@ -1,0 +1,13 @@
+{
+  "name": "@paperclip/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "5+1 Dashboard (React). Gerçek uygulama v0.3 / E14'te gelecek.",
+  "scripts": {
+    "build": "echo \"(ui placeholder — React dashboard v0.3/E14)\"",
+    "typecheck": "echo \"(ui placeholder)\"",
+    "lint": "echo \"(ui placeholder)\"",
+    "test": "echo \"(ui placeholder)\""
+  }
+}
