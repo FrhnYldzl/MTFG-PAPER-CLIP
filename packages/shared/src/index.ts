@@ -39,6 +39,26 @@ export enum Actor {
 /** Faz etiketleri (orijinal konseptten). */
 export type Phase = "Faz -1" | "Faz 0" | "Faz 1";
 
+/** Task durumu — 3 zorunlu alan dolana kadar TASLAK. */
+export enum TaskStatus {
+  TASLAK = "TASLAK",
+  ACIK = "ACIK",
+  KAPALI = "KAPALI",
+}
+
+/** Sinyal kaydının açık/kapalı durumu (idempotency için). */
+export enum SignalStatus {
+  OPEN = "OPEN",
+  CLOSED = "CLOSED",
+}
+
+/** Bildirim önceliği. */
+export enum Priority {
+  YUKSEK = "Yüksek",
+  ORTA = "Orta",
+  DUSUK = "Düşük",
+}
+
 export interface AuditEntry {
   id: number;
   ts: string;
@@ -47,4 +67,83 @@ export interface AuditEntry {
   entity?: string;
   entityId?: string;
   detail?: Record<string, unknown>;
+}
+
+/** İştirak (Rol Matrisi). */
+export interface Org {
+  slug: string;
+  name: string;
+  role: string;
+  functions?: string;
+  target?: string;
+  isAnchor: boolean;
+  auditOnly: boolean;
+  notes?: string;
+}
+
+/** Tetikleyici kütüğü kaydı. */
+export interface Trigger {
+  id: number;
+  source: string;
+  orgSlug?: string;
+  orgLabel: string;
+  function?: string;
+  responsibleRole?: string;
+  rhythm?: string;
+  triggerType: TriggerType;
+  rule?: string;
+  green?: string;
+  yellow?: string;
+  red?: string;
+  action?: string;
+  dashboard: Dashboard;
+  phase: Phase;
+  active: boolean;
+}
+
+/** Sinyal log kaydı. */
+export interface SignalRecord {
+  id: number;
+  ts: string;
+  triggerId: number;
+  orgSlug?: string;
+  signal: Signal;
+  reason?: string;
+  suggestedAction?: string;
+  dashboard: Dashboard;
+  status: SignalStatus;
+  day: string;
+}
+
+/** İş kalemi (Odak). */
+export interface Task {
+  id: number;
+  createdAt: string;
+  source?: string;
+  orgSlug?: string;
+  function?: string;
+  responsibleRole?: string;
+  description?: string;
+  expectedOutput?: string;
+  dueDate?: string;
+  linkedGoal?: string;
+  leadOffer?: string;
+  signal?: Signal;
+  triggerId?: number;
+  status: TaskStatus;
+  updatedAt: string;
+}
+
+/** Bildirim Kutusu kaydı — dış gönderim yok, İNSAN onaylar. */
+export interface Notification {
+  id: number;
+  ts: string;
+  priority: Priority;
+  subject: string;
+  toSuggestion?: string;
+  draftText?: string;
+  triggerId?: number;
+  read: boolean;
+  approvedBy?: string;
+  approvedAt?: string;
 }

@@ -5,7 +5,7 @@ Versiyonlama: **SemVer + Faz**. `v0.x` = MVP (Faz -1/0), `v1.0` = ajan katmanı 
 | Sürüm | Faz | Tema | Durum |
 |---|---|---|---|
 | **v0.1** | Faz 0 | İskelet & Defter (foundation) | 🚧 Devam ediyor |
-| v0.2 | Faz -1 | Üç Motor & Sinyal (Living Heart MVP) | ⏳ Planlandı |
+| v0.2 | Faz -1 | Üç Motor & Sinyal (Living Heart MVP) | 🚧 Devam ediyor (E5 ✅) |
 | v0.3 | Faz 0+ | Tam Kütük & 5+1 Dashboard | ⏳ Planlandı |
 | v1.0 | Faz 1 | Ajan Katmanı (semi-autonomous) | ⏳ Planlandı |
 
@@ -19,7 +19,7 @@ Versiyonlama: **SemVer + Faz**. `v0.x` = MVP (Faz -1/0), `v1.0` = ajan katmanı 
 - **Exit:** Boş ama deploy edilmiş, dokümante, devredilebilir sistem.
 
 ## v0.2 — Üç Motor & Sinyal
-- **E5** Veri Modeli (triggers 23 seed, signals, tasks, roles/orgs, notifications)
+- **E5** ✅ Veri Modeli (triggers 23 seed, signals, tasks, roles/orgs, notifications)
 - **E6** Sinyal Motoru (yeşil/sarı/kırmızı, idempotent, escalate)
 - **E7** Motor A — Toplantı → Follow-up → İş
 - **E8** Motor B — Network Çekme & Aktivasyon
