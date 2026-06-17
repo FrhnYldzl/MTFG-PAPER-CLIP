@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #3 — v0.2 / E6 Sinyal Motoru
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | Sinyal motoru yazıldı: saf `evaluate` (dayThreshold/presence/count/ratio → 🟢/🟡/🔴), idempotent `writeSignal` (ON CONFLICT partial unique), `escalate` (kırmızıda Bildirim Kutusu taslağı + acil Odak görevi, DIŞ GÖNDERİM YOK), uçtan uca `processObservation`, `configStore`. 12 birim testi (tahsilat 5/9/15 kabul kriteri dahil) + gerçek Postgres entegrasyon testi geçti (tahsilat 15g → kırmızı + 1 bildirim + 1 görev; tekrar çağrı idempotent). build/typecheck/test 16/16 yeşil. |
+| **İNSAN (Ferhan)** | "Devam et" → E6 onaylandı. |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.2/E6) |
+
+**Sıradaki:** E7 Motor A (Toplantı → Follow-up → İş).
+
+---
+
 ## 2026-06-17 · Oturum #2 — v0.2 / E5 Veri Modeli
 
 | Aktör | Kayıt |
