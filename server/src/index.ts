@@ -1,16 +1,19 @@
 import express from "express";
 import { config } from "./config.js";
+import { apiRouter } from "./routes/api.js";
 
 const app: express.Express = express();
 app.use(express.json());
+
+app.use("/api", apiRouter);
 
 /** Health endpoint — Railway healthcheck buraya bakar. */
 app.get("/health", (_req, res) => {
   res.json({
     status: "ok",
     service: "mtfg-paperclip",
-    version: "0.1.0",
-    phase: "Faz 0 — İskelet & Defter",
+    version: "0.2.0",
+    phase: "Faz -1 — Üç Motor & Sinyal",
     time: new Date().toISOString(),
   });
 });

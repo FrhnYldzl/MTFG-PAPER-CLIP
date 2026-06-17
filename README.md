@@ -55,6 +55,20 @@ pnpm migrate                # şemayı kur
 pnpm dev                    # API'yi başlat (http://localhost:3000/health)
 ```
 
+## API (v0.2)
+
+| Yöntem | Uç | Açıklama |
+|---|---|---|
+| GET | `/health` | Sağlık + sürüm |
+| GET | `/api/signals` | Açık sinyaller (5+1 şerit) |
+| GET | `/api/tasks?status=ACIK` | Görevler (Odak) |
+| GET | `/api/notifications` | Bildirim Kutusu (onay bekleyen) |
+| GET | `/api/orgs` · `/api/triggers` | Referans veriler |
+| POST | `/api/focus/:weekKey` | Haftalık odağı üret (idempotent) |
+| POST | `/api/notifications/:id/approve` | Taslağı onayla (body: `{"approver":"ferhan"}`) |
+
+> Sistem hiçbir uçtan **dışarıya göndermez**; onay yalnızca insanın kararını kayda geçirir.
+
 ## Devredilebilirlik (önemli)
 
 Bu proje **hesap-bağımsız devredilebilir** olacak şekilde tasarlandı. Yeni bir

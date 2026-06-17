@@ -5,10 +5,10 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | v0.2 — Üç Motor & Sinyal (Faz -1) · E5–E9 tamam (3 Motor bitti) |
+| **Aktif sürüm** | ✅ v0.2 — Üç Motor & Sinyal (Faz -1) TAMAMLANDI (E5–E11) |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
-| **Genel durum** | ✅ v0.1 (E1–E4) + v0.2/E5 veri modeli tamam. Yerel Postgres'te migrate + idempotency + immutability + sinyal tekilliği test edildi. Railway deploy doğrulaması bekliyor. |
+| **Genel durum** | ✅ v0.1 + v0.2 (Canlı Kalp MVP) bitti. 3 Motor + sinyal + governance + haftalık odak + REST API. Gerçek Postgres'te tüm entegrasyonlar + canlı API smoke testi geçti (36/36 birim testi). Railway deploy en sona bırakıldı (İNSAN talebi). |
 | **Drive defteri** | [00. Cowork–İnsan–Code Defteri](https://docs.google.com/spreadsheets/d/1kI5U9ekNNdxWv60EEyLNsPNL5u90bFhFSblHkq0Lk-o) |
 
 ## Tamamlananlar
@@ -32,12 +32,20 @@
       **Guardrail sistemik:** `escalate` artık icra üretmeme kuralına uyar (audit_only org veya
       "icra etme" aksiyonu → görev YOK, sadece yorum+revizyon taslağı). Entegrasyon: Fevup yokluk→görev,
       Marqby denetim→görev yok (yalnız taslak), OPEX %75→görev.
+- [x] **E10** Governance — `engine/governance.ts`: `approveNotification` (yalnız can_approve İNSAN,
+      audit kaydı), `listPendingNotifications`. Sistem hiçbir koşulda dışarı GÖNDERMEZ.
+- [x] **E11** Haftalık Odak Üreteci — `engine/focus.ts`: saf `buildFocusDraft` + `generateWeeklyFocus`
+      (açık 🔴/🟡 + ≤90g açık görev → "XX. Hafta MTFG Odak" taslağı, idempotent; tetikleyici #23 GREEN).
+- [x] **API** — `routes/api.ts`: GET signals/tasks/notifications/orgs/triggers, POST focus, POST approve.
+      Canlı sunucu smoke testi geçti (curl).
 - [x] **Tasarım (E14 hazırlık):** `docs/DESIGN.md` + `ui/src/styles/tokens.css` (Ariwon ailesinden, ADR-0004).
 
-## Sıradaki Adım (v0.2'yi bitir)
-1. **E10 Governance** — onay akışı (`approveNotification`: yalnız can_approve=true İNSAN; audit kaydı).
-2. **E11 Haftalık Odak Üreteci** — açık 🔴/🟡 sinyaller + ≤90g task → "XX. Hafta MTFG Odak" taslağı.
-3. v0.2 bitince: Railway deploy / istenirse UI preview.
+## Sıradaki Adım — v0.3 (Tam Kütük & 5+1 Dashboard)
+1. **E12 Scheduler** — Railway cron: Günlük/Haftalık/Aylık/Çeyreklik ritimler.
+2. **E13 Mail Intake** — Gmail readonly (OAuth kimlik bilgileri gerekecek).
+3. **E14 5+1 React Dashboard** — `docs/DESIGN.md` tasarım diliyle (preview burada yapılabilir).
+4. **E15 Config & Hedef Takibi**, **E16 Rutin Keşfi**.
+- Not: Railway deploy en sona bırakıldı; UI preview E14'te anlamlı.
 
 ## Açık Sorular / Bekleyenler
 - Railway proje/Postgres bağlantı bilgileri (İNSAN sağlayacak).

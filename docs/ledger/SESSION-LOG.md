@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #7 — v0.2 TAMAMLANDI: E10 Governance + E11 Haftalık Odak + API
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | E10: `engine/governance.ts` (`approveNotification` yalnız can_approve İNSAN + audit, `listPendingNotifications`). E11: `engine/focus.ts` (saf `buildFocusDraft` + `generateWeeklyFocus`, idempotent, açık 🔴/🟡 + ≤90g görev → odak taslağı, tetikleyici #23 GREEN). REST API `routes/api.ts` (signals/tasks/notifications/orgs/triggers/focus/approve). 3 odak birim testi (36/36). Gerçek Postgres entegrasyonu: odak idempotent, cowork onayı reddedildi, ferhan onayladı, tekrar onay reddedildi. **Canlı API smoke testi** (curl): /health, 23 trigger, 6 org, 3 açık sinyal, odak üretimi, yetkisiz onay reddi. v0.2 (Canlı Kalp MVP) bitti. |
+| **İNSAN (Ferhan)** | "Olur devam edelim" → E10+E11 onaylandı. |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.2/E10-E11+API) |
+
+**Sıradaki:** v0.3 — E12 Scheduler, E13 Mail Intake, E14 5+1 Dashboard (preview), E15-E16.
+
+---
+
 ## 2026-06-17 · Oturum #6 — v0.2 / E9 Motor C (Denetim) + icra-üretmeme guardrail
 
 | Aktör | Kayıt |
