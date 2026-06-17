@@ -5,7 +5,7 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | ✅ v0.3 — Tam Kütük & 5+1 Dashboard TAMAMLANDI (E12–E16) |
+| **Aktif sürüm** | ✅ v0.3 — Tam Kütük & 5+1 Dashboard TAMAMLANDI (E12–E16) · 🚀 Railway deploy (tek servis, main) |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
 | **Genel durum** | ✅ v0.1 + v0.2 bitti. 🚧 v0.3: E14 dashboard + preview hazır; E13 Gmail/Calendar readonly OAuth + mail intake kodu + refresh-token script + kurulum kılavuzu hazır (canlı bağlama için İNSAN: Google Cloud kimlik bilgileri `.env`'e). Sırada E12 Scheduler, E15 Config/Hedef, E16 Rutin Keşfi. |
@@ -43,8 +43,9 @@
 
 ## Sıradaki Adım — v1.0 (Ajan Katmanı) veya deploy
 - v0.3 tamamlandı (E12 Scheduler, E13 Mail Intake, E14 Dashboard, E15 Hedef Takibi, E16 Rutin Keşfi).
+- **Deploy:** Tek servis (server, `ui/dist`'i de sunar) → Railway. `main` dalı oluşturuldu; build/start/healthcheck `railway.json`'da. Kılavuz: `docs/DEPLOY.md`.
+- **İNSAN aksiyonu (canlı için):** (a) Railway'de Postgres ekle + `DATABASE_URL` referansla, (b) `NODE_ENV=production`, `TZ=Europe/Istanbul`, `SCHEDULER_ENABLED=true`, (c) Gmail OAuth (opsiyonel, `docs/GOOGLE_OAUTH_SETUP.md`).
 - **v1.0 epic'leri:** E17 Ajan Çerçevesi, E18 AI Analiz Pipeline, E19 Çok-kullanıcı/Kimlik, E20 Portability.
-- **İNSAN aksiyonu (canlı için):** (a) Gmail OAuth bilgileri (`docs/GOOGLE_OAUTH_SETUP.md`), (b) Railway proje + Postgres (deploy).
 - UI onaylandı (Ariwon dili + font sadakati).
 
 ## Açık Sorular / Bekleyenler
