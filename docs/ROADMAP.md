@@ -6,7 +6,7 @@ Versiyonlama: **SemVer + Faz**. `v0.x` = MVP (Faz -1/0), `v1.0` = ajan katmanı 
 |---|---|---|---|
 | **v0.1** | Faz 0 | İskelet & Defter (foundation) | 🚧 Devam ediyor |
 | v0.2 | Faz -1 | Üç Motor & Sinyal (Living Heart MVP) | ✅ Tamamlandı |
-| v0.3 | Faz 0+ | Tam Kütük & 5+1 Dashboard | 🚧 Devam ediyor (E14 ✅) |
+| v0.3 | Faz 0+ | Tam Kütük & 5+1 Dashboard | ✅ Tamamlandı |
 | v1.0 | Faz 1 | Ajan Katmanı (semi-autonomous) | ⏳ Planlandı |
 
 ---
@@ -32,9 +32,9 @@ Versiyonlama: **SemVer + Faz**. `v0.x` = MVP (Faz -1/0), `v1.0` = ajan katmanı 
 - **E12** ✅ Scheduler (cron ritimleri: günlük/haftalık/aylık/çeyreklik + CLI + API)
 - **E13** ✅ Mail Intake (Gmail readonly) — kod + refresh-token script + kurulum kılavuzu
 - **E14** 5+1 React Dashboard — **Ariwon ailesinden tasarım dili** (bkz. `docs/DESIGN.md`, `ui/src/styles/tokens.css`)
-- **E15** Config & Hedef Takibi
-- **E16** Rutin Keşfi (light)
-- **Exit:** Tüm 23 tetikleyici canlı, panellerden izlenir, haftalık otomatik odak.
+- **E15** ✅ Config & Hedef Takibi (hedefler + gerçekleşme % + sinyal)
+- **E16** ✅ Rutin Keşfi (light) — desen → öneri → İNSAN onayı
+- **Exit:** ✅ Tüm 23 tetikleyici canlı, panellerden izlenir, haftalık otomatik odak.
 
 ## v1.0 — Ajan Katmanı
 - **E17** Ajan Çerçevesi (rol bazlı, Claude API ile AI Analizi)

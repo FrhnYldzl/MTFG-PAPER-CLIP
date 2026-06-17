@@ -15,6 +15,18 @@
 
 **Sıradaki:** İNSAN onayı → E15 Config/Hedef, E16 Rutin Keşfi.
 
+## 2026-06-17 · Oturum #13 — v0.3 TAMAMLANDI: E15 Hedef Takibi + E16 Rutin Keşfi
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | `0004` migration (targets 7 seed + routine_suggestions). `engine/targets.ts` (achievementPct/targetSignal saf, listTargets, setTargetProgress: <%70🔴/%70-100🟡/≥%100🟢). `engine/routineDiscovery.ts` (estimateFrequency/avgIntervalDays saf, discoverRoutines idempotent, approveRoutine yalnız İNSAN). API: targets + routines uçları. 6 birim testi (51/51) + gerçek Postgres entegrasyonu (Juris %50→🔴, rutin 2 aday+idempotent, cowork red/ferhan onay). v0.3 bitti. |
+| **İNSAN (Ferhan)** | "Onaylıyorum, devam" + "E15+E16 ile v0.3'ü bitir". |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.3/E15-E16) |
+
+**Sıradaki:** v1.0 ajan katmanı veya canlı deploy (İNSAN: OAuth + Railway).
+
+---
+
 ## 2026-06-17 · Oturum #12b — UI rafinasyon: metrik kartı + font sadakati (tekrar vurgu)
 
 | Aktör | Kayıt |

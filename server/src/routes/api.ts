@@ -4,6 +4,8 @@ import { listPendingNotifications, approveNotification } from "../engine/governa
 import { generateWeeklyFocus } from "../engine/focus.js";
 import { intakeFromMail } from "../engine/intake.js";
 import { JOBS, type JobName } from "../jobs/jobs.js";
+import { listTargets, setTargetProgress } from "../engine/targets.js";
+import { listRoutineSuggestions, approveRoutine } from "../engine/routineDiscovery.js";
 
 /** v0.2 operasyon API'si — E14 dashboard ve preview bunları tüketir. */
 export const apiRouter: Router = Router();
@@ -52,6 +54,30 @@ apiRouter.get("/triggers", async (_req, res) => {
 apiRouter.post("/focus/:weekKey", async (req, res) => {
   try {
     res.json(await generateWeeklyFocus(req.params.weekKey));
+  } catch (err) {
+    fail(res, err);
+  }
+});
+
+/** Hedefler + gerçekleşme % + sinyal (E15). */
+apiRouter.get("/targets", async (_req, res) => {
+  res.json(await listTargets());
+});
+apiRouter.post("/targets/:id/progress", async (req, res) => {
+  try {
+    res.json(await setTargetProgress(Number(req.params.id), Number(req.body?.current ?? 0)));
+  } catch (err) {
+    fail(res, err);
+  }
+});
+
+/** Rutin önerileri (E16) + onay. */
+apiRouter.get("/routines", async (_req, res) => {
+  res.json(await listRoutineSuggestions());
+});
+apiRouter.post("/routines/:id/approve", async (req, res) => {
+  try {
+    res.json(await approveRoutine(Number(req.params.id), String(req.body?.approver ?? "")));
   } catch (err) {
     fail(res, err);
   }

@@ -5,7 +5,7 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | 🚧 v0.3 — Tam Kütük & 5+1 Dashboard · E12 + E13 + E14 tamam |
+| **Aktif sürüm** | ✅ v0.3 — Tam Kütük & 5+1 Dashboard TAMAMLANDI (E12–E16) |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
 | **Genel durum** | ✅ v0.1 + v0.2 bitti. 🚧 v0.3: E14 dashboard + preview hazır; E13 Gmail/Calendar readonly OAuth + mail intake kodu + refresh-token script + kurulum kılavuzu hazır (canlı bağlama için İNSAN: Google Cloud kimlik bilgileri `.env`'e). Sırada E12 Scheduler, E15 Config/Hedef, E16 Rutin Keşfi. |
@@ -41,13 +41,11 @@
       Canlı sunucu smoke testi geçti (curl).
 - [x] **Tasarım (E14 hazırlık):** `docs/DESIGN.md` + `ui/src/styles/tokens.css` (Ariwon ailesinden, ADR-0004).
 
-## Sıradaki Adım — v0.3 kalan
-1. ~~E12 Scheduler~~ ✅ (node-cron in-process + CLI `jobs/run.js` + `POST /api/jobs/:name`)
-2. ~~E13 Mail Intake~~ ✅ (kod hazır; canlı için OAuth kimliği bekleniyor)
-3. ~~E14 5+1 Dashboard~~ ✅ (PNG preview gösterildi)
-4. **E15 Config & Hedef Takibi**, **E16 Rutin Keşfi** → v0.3 biter.
-- **İNSAN aksiyonu:** (a) Gmail OAuth bilgileri (E13 canlı), (b) Ariwon_Zen.zip içeriğini küçük PNG/PDF olarak Drive'a koy (connector zip'i çekemiyor).
-- Not: Railway deploy en sona bırakıldı (İNSAN talebi).
+## Sıradaki Adım — v1.0 (Ajan Katmanı) veya deploy
+- v0.3 tamamlandı (E12 Scheduler, E13 Mail Intake, E14 Dashboard, E15 Hedef Takibi, E16 Rutin Keşfi).
+- **v1.0 epic'leri:** E17 Ajan Çerçevesi, E18 AI Analiz Pipeline, E19 Çok-kullanıcı/Kimlik, E20 Portability.
+- **İNSAN aksiyonu (canlı için):** (a) Gmail OAuth bilgileri (`docs/GOOGLE_OAUTH_SETUP.md`), (b) Railway proje + Postgres (deploy).
+- UI onaylandı (Ariwon dili + font sadakati).
 
 ## Açık Sorular / Bekleyenler
 - Railway proje/Postgres bağlantı bilgileri (İNSAN sağlayacak).
