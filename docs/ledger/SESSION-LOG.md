@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #4 — v0.2 / E7 Motor A + Tasarım sistemi
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | (1) Ariwon Design Brief'leri (Drive) okundu; `docs/DESIGN.md` + `ui/src/styles/tokens.css` tasarım sistemi eklendi (sinyal renkleri Ariwon paletiyle hizalı, birebir kopya değil — ADR-0004). (2) Motor A: `engine/motorA.ts` (`meetingSignal` saf + `processMeeting`), `0003` migration ile signals.entity_key (olay-bazlı idempotency), pool lazy hale getirildi. 5 yeni birim testi (73s→🔴, 50s→🟡 kabul kriterleri) + gerçek Postgres entegrasyonu geçti (aynı gün 2 toplantı ayrı izlendi, 🔴 eskale, idempotent). build/typecheck/test 21/21 yeşil. |
+| **İNSAN (Ferhan)** | "Dashboard Ariwon tasarım diline benzesin (birebir değil)" + "Devam edebilirsin projeye" → E7 onaylandı. |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commitler (design + v0.2/E7) |
+
+**Sıradaki:** E8 Motor B (Network çekme & aktivasyon).
+
+---
+
 ## 2026-06-17 · Oturum #3 — v0.2 / E6 Sinyal Motoru
 
 | Aktör | Kayıt |

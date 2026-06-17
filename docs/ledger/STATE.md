@@ -5,7 +5,7 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | v0.2 — Üç Motor & Sinyal (Faz -1) · E5–E6 tamam |
+| **Aktif sürüm** | v0.2 — Üç Motor & Sinyal (Faz -1) · E5–E7 tamam |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
 | **Genel durum** | ✅ v0.1 (E1–E4) + v0.2/E5 veri modeli tamam. Yerel Postgres'te migrate + idempotency + immutability + sinyal tekilliği test edildi. Railway deploy doğrulaması bekliyor. |
@@ -18,14 +18,18 @@
 - [x] **E2** Postgres bağlantısı + migration runner + `0001_init.sql` (config + audit_log)
 - [x] **E5** Veri Modeli — `0002_data_model.sql`: orgs (6), roles (3), triggers (23 seed),
       signals (idempotent partial-unique), tasks (varsayılan TASLAK), notifications (Bildirim Kutusu).
-- [x] **E6** Sinyal Motoru — `engine/signalEngine.ts` (saf `evaluate`: dayThreshold/presence/count/ratio),
-      `engine/signalStore.ts` (idempotent `writeSignal`, `escalate` → Bildirim taslağı + acil görev,
-      `processObservation` uçtan uca), `db/configStore.ts`. Entegrasyon testi geçti (tahsilat 15g → 🔴 + eskalasyon, tekrar idempotent).
+- [x] **E6** Sinyal Motoru — `engine/signalEngine.ts` (saf `evaluate`), `engine/signalStore.ts`
+      (idempotent `writeSignal`, `escalate`, `processObservation`), `db/configStore.ts`.
+- [x] **E7** Motor A (Toplantı → Follow-up → İş) — `engine/motorA.ts`: saf `meetingSignal`
+      (leadsiz→🔴, follow-up→🟢, saat eşiği 48/72), `processMeeting` (zorunlu intake TASLAK görevi +
+      sinyal). `0003`: signals.entity_key → olay-bazlı idempotency (aynı gün çok toplantı ayrı izlenir).
+      Pool lazy yapıldı (saf testler DB istemez). Entegrasyon testi geçti.
+- [x] **Tasarım (E14 hazırlık):** `docs/DESIGN.md` + `ui/src/styles/tokens.css` (Ariwon ailesinden, ADR-0004).
 
 ## Sıradaki Adım
 1. Railway'de servis + Postgres bağlanıp ilk deploy (health yeşil) — İNSAN tarafı.
-2. v0.2 devam: **E7 Motor A** (Toplantı → Follow-up → İş; Calendar readonly).
-3. Ardından E8 Motor B (Network), E9 Motor C (Denetim), E10 Governance, E11 Haftalık Odak.
+2. v0.2 devam: **E8 Motor B** (Network çekme & aktivasyon; haftalık kadans, hedef 20/yıl).
+3. Ardından E9 Motor C (Denetim), E10 Governance, E11 Haftalık Odak.
 
 ## Açık Sorular / Bekleyenler
 - Railway proje/Postgres bağlantı bilgileri (İNSAN sağlayacak).

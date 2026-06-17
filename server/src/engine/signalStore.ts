@@ -29,11 +29,13 @@ export async function writeSignal(params: {
   reason?: string;
   suggestedAction?: string;
   dashboard: string;
+  /** Olay-bazlı tetikleyiciler için (ör. toplantı id). Yoksa gün+tetikleyici başına tek. */
+  entityKey?: string | null;
 }): Promise<number | null> {
   const { rows } = await pool.query<{ id: number }>(
-    `INSERT INTO signals (trigger_id, org_slug, signal, reason, suggested_action, dashboard)
-     VALUES ($1, $2, $3, $4, $5, $6)
-     ON CONFLICT (trigger_id, day) WHERE status = 'OPEN'
+    `INSERT INTO signals (trigger_id, org_slug, signal, reason, suggested_action, dashboard, entity_key)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
+     ON CONFLICT (trigger_id, day, COALESCE(entity_key, '')) WHERE status = 'OPEN'
      DO NOTHING
      RETURNING id`,
     [
@@ -43,6 +45,7 @@ export async function writeSignal(params: {
       params.reason ?? null,
       params.suggestedAction ?? null,
       params.dashboard,
+      params.entityKey ?? null,
     ]
   );
   return rows[0]?.id ?? null;
@@ -100,7 +103,8 @@ export async function escalate(trigger: TriggerRow): Promise<{
  */
 export async function processObservation(
   triggerId: number,
-  obs: Observation
+  obs: Observation,
+  entityKey?: string | null
 ): Promise<{ signal: Signal; signalId: number | null; escalated: boolean }> {
   const { rows } = await pool.query<TriggerRow>(
     `SELECT id, source, org_slug, org_label, function, responsible_role,
@@ -126,6 +130,7 @@ export async function processObservation(
     reason: reason ?? undefined,
     suggestedAction: trigger.action ?? undefined,
     dashboard: trigger.dashboard,
+    entityKey: entityKey ?? null,
   });
 
   // Eskalasyon yalnızca yeni KIRMIZI sinyal yazıldıysa (idempotent)

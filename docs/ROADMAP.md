@@ -21,7 +21,7 @@ Versiyonlama: **SemVer + Faz**. `v0.x` = MVP (Faz -1/0), `v1.0` = ajan katmanı 
 ## v0.2 — Üç Motor & Sinyal
 - **E5** ✅ Veri Modeli (triggers 23 seed, signals, tasks, roles/orgs, notifications)
 - **E6** ✅ Sinyal Motoru (yeşil/sarı/kırmızı, idempotent, escalate)
-- **E7** Motor A — Toplantı → Follow-up → İş
+- **E7** ✅ Motor A — Toplantı → Follow-up → İş
 - **E8** Motor B — Network Çekme & Aktivasyon
 - **E9** Motor C — Rol-Bazlı Denetim Sinyali
 - **E10** Governance (taslak → İNSAN onayı, send scope yok)
