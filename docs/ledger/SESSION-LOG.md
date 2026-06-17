@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #10 — Dashboard preview (inline PNG, Ariwon uyumlu)
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | İNSAN "UI'yi paylaşılan Ariwon tasarımına uyumlu yap + preview'i burada göster" dedi. Tarayıcı ikilisi (Chromium/Playwright/snap) ağ politikasıyla engelli; `@resvg/resvg-js` ile SVG→PNG render eden `tools/render-preview.mjs` yazıldı. Ariwon brief paletiyle (Void/Signal Indigo/Flow Teal/WIN Gold/Vibe Coral, glow, Space Grotesk/Inter) yüksek sadakatli dashboard PNG'si üretildi (`ui/preview.png`) ve sohbette inline gösterildi. Not: 10MB "Ariwon_Zen.zip" indirilemedi (boyut + Drive oturum kopması); brief detayları esas alındı. |
+| **İNSAN (Ferhan)** | UI Ariwon'a uyumlu olmalı; preview burada görünsün. |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (preview render) |
+
+**Sıradaki:** İNSAN preview geri bildirimi → E12 Scheduler.
+
+---
+
 ## 2026-06-17 · Oturum #9 — v0.3 / E13 Gmail/Calendar OAuth + Mail Intake
 
 | Aktör | Kayıt |
