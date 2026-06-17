@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #11 — v0.3 / E12 Scheduler (ritim cron'ları)
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | `node-cron` eklendi. `jobs/jobs.ts`: weekKey/monthKey (saf), taskAgeSweep (#22), dailyRun (mail intake + task yaş), weeklyRun (haftalık odak), monthlyRun, quarterlyRun — hepsi audit'li, idempotent. `jobs/run.js` CLI (Railway cron için), in-process scheduler (index.ts, SCHEDULER_ENABLED bayrağı, Europe/Istanbul), `POST /api/jobs/:name`. 3 birim testi + gerçek DB CLI koşusu (daily/weekly/quarterly → 3 audit, odak üretildi). build/typecheck/test 45/45 yeşil. **Ariwon_Zen.zip indirilemedi** (10MB, connector oturum kopması) → İNSAN'dan küçük PNG/PDF istendi. |
+| **İNSAN (Ferhan)** | "Zip'teki tasarıma bak" + "E12 Scheduler'a geç". (Zip erişilemedi; E12 yapıldı.) |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.3/E12) |
+
+**Sıradaki:** İNSAN zip içeriğini PNG olarak paylaşınca UI rötuşu → E15 Config/Hedef, E16 Rutin Keşfi.
+
+---
+
 ## 2026-06-17 · Oturum #10 — Dashboard preview (inline PNG, Ariwon uyumlu)
 
 | Aktör | Kayıt |

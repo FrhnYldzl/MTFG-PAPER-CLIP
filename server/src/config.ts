@@ -6,6 +6,7 @@ export const config = {
   nodeEnv: process.env.NODE_ENV ?? "development",
   databaseUrl: process.env.DATABASE_URL ?? "",
   tz: process.env.TZ ?? "Europe/Istanbul",
+  schedulerEnabled: process.env.SCHEDULER_ENABLED === "true",
 } as const;
 
 export function requireDatabaseUrl(): string {

@@ -3,6 +3,7 @@ import { pool } from "../db/pool.js";
 import { listPendingNotifications, approveNotification } from "../engine/governance.js";
 import { generateWeeklyFocus } from "../engine/focus.js";
 import { intakeFromMail } from "../engine/intake.js";
+import { JOBS, type JobName } from "../jobs/jobs.js";
 
 /** v0.2 operasyon API'si — E14 dashboard ve preview bunları tüketir. */
 export const apiRouter: Router = Router();
@@ -61,6 +62,20 @@ apiRouter.post("/intake/mail", async (_req, res) => {
   try {
     const count = await intakeFromMail();
     res.json({ processed: count, configured: count >= 0 });
+  } catch (err) {
+    fail(res, err, 500);
+  }
+});
+
+/** Bir ritim job'unu manuel tetikle (daily|weekly|monthly|quarterly). */
+apiRouter.post("/jobs/:name", async (req, res) => {
+  const name = req.params.name as JobName;
+  if (!(name in JOBS)) {
+    fail(res, new Error(`Geçersiz job: ${name}`));
+    return;
+  }
+  try {
+    res.json(await JOBS[name]());
   } catch (err) {
     fail(res, err, 500);
   }

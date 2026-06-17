@@ -5,7 +5,7 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | 🚧 v0.3 — Tam Kütük & 5+1 Dashboard · E13 + E14 tamam |
+| **Aktif sürüm** | 🚧 v0.3 — Tam Kütük & 5+1 Dashboard · E12 + E13 + E14 tamam |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
 | **Genel durum** | ✅ v0.1 + v0.2 bitti. 🚧 v0.3: E14 dashboard + preview hazır; E13 Gmail/Calendar readonly OAuth + mail intake kodu + refresh-token script + kurulum kılavuzu hazır (canlı bağlama için İNSAN: Google Cloud kimlik bilgileri `.env`'e). Sırada E12 Scheduler, E15 Config/Hedef, E16 Rutin Keşfi. |
@@ -42,10 +42,11 @@
 - [x] **Tasarım (E14 hazırlık):** `docs/DESIGN.md` + `ui/src/styles/tokens.css` (Ariwon ailesinden, ADR-0004).
 
 ## Sıradaki Adım — v0.3 kalan
-1. ~~E13 Mail Intake~~ ✅ (kod hazır; canlı için OAuth kimliği bekleniyor)
-2. ~~E14 5+1 Dashboard~~ ✅ (preview üretildi)
-3. **E12 Scheduler** — Railway cron: Günlük/Haftalık/Aylık/Çeyreklik ritimler (motorları periyodik çalıştır).
-4. **E15 Config & Hedef Takibi**, **E16 Rutin Keşfi**.
+1. ~~E12 Scheduler~~ ✅ (node-cron in-process + CLI `jobs/run.js` + `POST /api/jobs/:name`)
+2. ~~E13 Mail Intake~~ ✅ (kod hazır; canlı için OAuth kimliği bekleniyor)
+3. ~~E14 5+1 Dashboard~~ ✅ (PNG preview gösterildi)
+4. **E15 Config & Hedef Takibi**, **E16 Rutin Keşfi** → v0.3 biter.
+- **İNSAN aksiyonu:** (a) Gmail OAuth bilgileri (E13 canlı), (b) Ariwon_Zen.zip içeriğini küçük PNG/PDF olarak Drive'a koy (connector zip'i çekemiyor).
 - Not: Railway deploy en sona bırakıldı (İNSAN talebi).
 
 ## Açık Sorular / Bekleyenler
