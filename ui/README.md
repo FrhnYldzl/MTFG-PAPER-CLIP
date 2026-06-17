@@ -14,3 +14,9 @@ Planlanan 5+1 panel (her panelde canlı sinyal şeridi):
 | 5 · Odak | task-sorun-zaman | Motor A + task yaşı |
 
 "Sadelik" guardrail'i gereği frontend toolchain'i ilgili faza kadar eklenmiyor.
+
+## Tasarım
+
+Tasarım dili **Ariwon ailesinden** ilham alır (birebir değil) — premium koyu mod,
+elektrik aksan, canlı sinyal estetiği. Spec: [`docs/DESIGN.md`](../docs/DESIGN.md).
+Token'lar hazır: [`src/styles/tokens.css`](src/styles/tokens.css).

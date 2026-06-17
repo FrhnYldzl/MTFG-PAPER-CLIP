@@ -1,0 +1,72 @@
+/*
+ * MTFG Paperclip — Tasarım Token'ları (design tokens)
+ * Ariwon ailesinden ilham; MTFG'ye uyarlanmış. Bkz. docs/DESIGN.md
+ * E14 (v0.3) dashboard'u bu değişkenleri kullanır.
+ */
+
+:root {
+  /* ── Marka & yüzeyler (koyu mod birincil) ── */
+  --bg: #0a0a0f;            /* Void */
+  --surface: #14141c;
+  --surface-2: #1e1e29;
+  --text: #f5f5ff;          /* Signal White */
+  --text-muted: #8a8a9e;    /* Data Gray */
+  --border: rgba(245, 245, 255, 0.08);
+
+  --primary: #5b47ff;       /* Signal Indigo (Ariwon Electric'ten ayrıştırıldı) */
+  --primary-2: #7a5cff;
+  --primary-soft: rgba(91, 71, 255, 0.12);
+
+  /* ── Sinyal renkleri (sistemin kalbi) ── */
+  --signal-green: #00c9b8;  /* Flow Teal  → 🟢 sağlıklı */
+  --signal-yellow: #ffb800; /* WIN Gold   → 🟡 izle/uyar */
+  --signal-red: #ff5c5c;    /* Vibe Coral → 🔴 aksiyon */
+
+  --signal-green-soft: rgba(0, 201, 184, 0.12);
+  --signal-yellow-soft: rgba(255, 184, 0, 0.12);
+  --signal-red-soft: rgba(255, 92, 92, 0.12);
+
+  /* ── Tipografi ── */
+  --font-display: "Space Grotesk", "Satoshi", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 3rem;
+
+  /* ── Boşluk & yarıçap ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* ── Hareket (her zaman yukarı/ileri, akıcı) ── */
+  --motion-fast: 0.2s ease-out;
+  --motion-base: 0.3s ease-out;
+
+  /* ── Gölge / glow ── */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --glow-primary: 0 0 0 1px var(--primary), 0 0 24px rgba(91, 71, 255, 0.35);
+  --glow-red: 0 0 24px rgba(255, 92, 92, 0.35);
+}
+
+/* Sinyal yardımcı sınıfları (E14'te bileşenler kullanır) */
+.signal--green { color: var(--signal-green); background: var(--signal-green-soft); }
+.signal--yellow { color: var(--signal-yellow); background: var(--signal-yellow-soft); }
+.signal--red { color: var(--signal-red); background: var(--signal-red-soft); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.is-critical { animation: pulse 1.6s ease-in-out infinite; }

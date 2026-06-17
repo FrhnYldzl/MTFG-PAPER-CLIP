@@ -25,3 +25,10 @@
 - **Karar:** `gmail.send` scope'u hiçbir fazda istenmez; tüm dış aksiyonlar Bildirim Kutusu'na taslak olarak yazılır, İNSAN onaylar/gönderir.
 - **Gerekçe:** Güven, kontrol, kaygıyı sisteme yükleme ilkesi.
 - **Durum:** ✅ Kabul (orijinal konsept guardrail'i).
+
+## ADR-0004 — UI/UX tasarım dili: Ariwon ailesinden ilham (birebir değil)
+- **Tarih:** 2026-06-17
+- **Bağlam:** İNSAN, dashboard'un Ariwon tasarım dili ve SaaS mantığına büyük oranda benzemesini ama birebir aynı olmamasını istedi (Drive: ARIWON & Sirius Wave/Orion Design Brief).
+- **Karar:** Premium koyu mod + elektrik aksan + "canlı kalp" sinyal estetiği benimsenir. Sinyal renkleri Ariwon paletiyle hizalanır (Flow Teal→🟢, WIN Gold→🟡, Vibe Coral→🔴). Primary hue ayrıştırılır (`#5B3FFF`→`#5B47FF` "Signal Indigo"), isimlendirme MTFG'ye özgü; WIN/HUNT/FLOW sloganları kullanılmaz. Spec `docs/DESIGN.md`, token'lar `ui/src/styles/tokens.css`.
+- **Gerekçe:** Aynı aileden his, özgün kimlik; telif/özgünlük güvencesi. E14'te uygulanır.
+- **Durum:** ✅ Kabul (İNSAN talebi, 2026-06-17). Uygulama: v0.3 / E14.
