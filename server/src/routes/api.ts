@@ -2,6 +2,7 @@ import { Router, type Request, type Response } from "express";
 import { pool } from "../db/pool.js";
 import { listPendingNotifications, approveNotification } from "../engine/governance.js";
 import { generateWeeklyFocus } from "../engine/focus.js";
+import { intakeFromMail } from "../engine/intake.js";
 
 /** v0.2 operasyon API'si — E14 dashboard ve preview bunları tüketir. */
 export const apiRouter: Router = Router();
@@ -52,6 +53,16 @@ apiRouter.post("/focus/:weekKey", async (req, res) => {
     res.json(await generateWeeklyFocus(req.params.weekKey));
   } catch (err) {
     fail(res, err);
+  }
+});
+
+/** Gelen kutusunu tara ve intake et (Gmail readonly). Kimlik yoksa -1 döner. */
+apiRouter.post("/intake/mail", async (_req, res) => {
+  try {
+    const count = await intakeFromMail();
+    res.json({ processed: count, configured: count >= 0 });
+  } catch (err) {
+    fail(res, err, 500);
   }
 });
 

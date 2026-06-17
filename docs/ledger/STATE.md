@@ -5,10 +5,11 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | 🚧 v0.3 — Tam Kütük & 5+1 Dashboard · E14 ilk sürüm tamam |
+| **Aktif sürüm** | 🚧 v0.3 — Tam Kütük & 5+1 Dashboard · E13 + E14 tamam |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
-| **Genel durum** | ✅ v0.1 + v0.2 bitti. 🚧 v0.3: E14 dashboard (React+Vite, Ariwon tasarım dili, API'ye bağlı + mock fallback) kuruldu; `ui/preview.html` self-contained preview üretildi. Sırada E13 Gmail OAuth (İNSAN kimlik bilgisi sağlayacak), E12 Scheduler, E15-E16. |
+| **Genel durum** | ✅ v0.1 + v0.2 bitti. 🚧 v0.3: E14 dashboard + preview hazır; E13 Gmail/Calendar readonly OAuth + mail intake kodu + refresh-token script + kurulum kılavuzu hazır (canlı bağlama için İNSAN: Google Cloud kimlik bilgileri `.env`'e). Sırada E12 Scheduler, E15 Config/Hedef, E16 Rutin Keşfi. |
+| **İNSAN aksiyonu bekleyen** | `docs/GOOGLE_OAUTH_SETUP.md` izleyip GOOGLE_CLIENT_ID/SECRET/REFRESH_TOKEN üret → mail intake canlanır. |
 | **Drive defteri** | [00. Cowork–İnsan–Code Defteri](https://docs.google.com/spreadsheets/d/1kI5U9ekNNdxWv60EEyLNsPNL5u90bFhFSblHkq0Lk-o) |
 
 ## Tamamlananlar
@@ -40,12 +41,12 @@
       Canlı sunucu smoke testi geçti (curl).
 - [x] **Tasarım (E14 hazırlık):** `docs/DESIGN.md` + `ui/src/styles/tokens.css` (Ariwon ailesinden, ADR-0004).
 
-## Sıradaki Adım — v0.3 (Tam Kütük & 5+1 Dashboard)
-1. **E12 Scheduler** — Railway cron: Günlük/Haftalık/Aylık/Çeyreklik ritimler.
-2. **E13 Mail Intake** — Gmail readonly (OAuth kimlik bilgileri gerekecek).
-3. **E14 5+1 React Dashboard** — `docs/DESIGN.md` tasarım diliyle (preview burada yapılabilir).
+## Sıradaki Adım — v0.3 kalan
+1. ~~E13 Mail Intake~~ ✅ (kod hazır; canlı için OAuth kimliği bekleniyor)
+2. ~~E14 5+1 Dashboard~~ ✅ (preview üretildi)
+3. **E12 Scheduler** — Railway cron: Günlük/Haftalık/Aylık/Çeyreklik ritimler (motorları periyodik çalıştır).
 4. **E15 Config & Hedef Takibi**, **E16 Rutin Keşfi**.
-- Not: Railway deploy en sona bırakıldı; UI preview E14'te anlamlı.
+- Not: Railway deploy en sona bırakıldı (İNSAN talebi).
 
 ## Açık Sorular / Bekleyenler
 - Railway proje/Postgres bağlantı bilgileri (İNSAN sağlayacak).

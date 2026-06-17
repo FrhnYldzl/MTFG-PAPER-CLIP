@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #9 — v0.3 / E13 Gmail/Calendar OAuth + Mail Intake
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | `googleapis` eklendi. `google/auth.ts` (readonly OAuth2: gmail.readonly + calendar.readonly, `gmail.send` YOK), `google/gmail.ts` (`fetchRecentMail`, `parseSender`), `engine/intake.ts` (`mailSignal` saf, `processMail` idempotent TASLAK görev + sinyal, `intakeFromMail`). `POST /api/intake/mail` ucu. Refresh-token üretici `server/scripts/get-refresh-token.mjs` + `docs/GOOGLE_OAUTH_SETUP.md` adım adım kılavuz. 6 birim testi + gerçek Postgres entegrasyonu (50s atanmamış mail→🔴+TASLAK+eskalasyon, idempotent, kimliksiz intake -1). build/typecheck/test 42/42 yeşil. |
+| **İNSAN (Ferhan)** | "Kılavuz + script yeter" → kendi Google Cloud kimlik bilgilerini üretip .env'e koyacak. |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.3/E13) |
+
+**Sıradaki:** E12 Scheduler (cron ritimleri) → sonra E15/E16.
+
+---
+
 ## 2026-06-17 · Oturum #8 — v0.3 / E14 5+1 Dashboard (preview)
 
 | Aktör | Kayıt |

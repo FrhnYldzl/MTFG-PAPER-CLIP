@@ -17,6 +17,7 @@
     "@paperclip/shared": "workspace:*",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "googleapis": "^144.0.0",
     "pg": "^8.13.0"
   },
   "devDependencies": {

@@ -30,7 +30,7 @@ Versiyonlama: **SemVer + Faz**. `v0.x` = MVP (Faz -1/0), `v1.0` = ajan katmanı 
 
 ## v0.3 — Tam Kütük & 5+1 Dashboard
 - **E12** Scheduler (cron ritimleri)
-- **E13** Mail Intake (Gmail readonly)
+- **E13** ✅ Mail Intake (Gmail readonly) — kod + refresh-token script + kurulum kılavuzu
 - **E14** 5+1 React Dashboard — **Ariwon ailesinden tasarım dili** (bkz. `docs/DESIGN.md`, `ui/src/styles/tokens.css`)
 - **E15** Config & Hedef Takibi
 - **E16** Rutin Keşfi (light)
