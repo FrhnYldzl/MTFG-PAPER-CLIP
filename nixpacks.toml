@@ -3,7 +3,8 @@
 nixPkgs = ["nodejs_20", "pnpm-9_x"]
 
 [phases.install]
-cmds = ["pnpm install --frozen-lockfile"]
+# --prod=false: NODE_ENV=production olsa bile devDependencies (tsc, vite) kurulur
+cmds = ["pnpm install --frozen-lockfile --prod=false"]
 
 [phases.build]
 cmds = ["pnpm build"]
