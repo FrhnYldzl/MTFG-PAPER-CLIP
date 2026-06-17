@@ -1,5 +1,5 @@
 import pg from "pg";
-import { requireDatabaseUrl, config } from "../config.js";
+import { requireDatabaseUrl } from "../config.js";
 
 /**
  * Tembel (lazy) PostgreSQL bağlantı havuzu.
@@ -8,15 +8,26 @@ import { requireDatabaseUrl, config } from "../config.js";
  */
 let _pool: pg.Pool | null = null;
 
+/**
+ * SSL yalnızca gerektiğinde açılır:
+ * - PGSSL=require  → açık
+ * - DATABASE_URL içinde sslmode=require → açık
+ * - PGSSL=disable veya varsayılan → kapalı (Railway iç bağlantısı SSL istemez)
+ */
+function sslConfig(): { rejectUnauthorized: boolean } | undefined {
+  const url = requireDatabaseUrl();
+  if (process.env.PGSSL === "disable") return undefined;
+  if (process.env.PGSSL === "require" || /sslmode=require/i.test(url)) {
+    return { rejectUnauthorized: false };
+  }
+  return undefined;
+}
+
 function ensurePool(): pg.Pool {
   if (!_pool) {
     _pool = new pg.Pool({
       connectionString: requireDatabaseUrl(),
-      // Railway yönetilen Postgres TLS gerektirir; lokalde gerektirmez.
-      ssl:
-        config.nodeEnv === "production"
-          ? { rejectUnauthorized: false }
-          : undefined,
+      ssl: sslConfig(),
     });
   }
   return _pool;
