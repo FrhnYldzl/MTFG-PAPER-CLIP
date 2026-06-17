@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-17 · Oturum #8 — v0.3 / E14 5+1 Dashboard (preview)
+
+| Aktör | Kayıt |
+|---|---|
+| **COWORK (Claude)** | `ui/` gerçek React+Vite uygulamasına çevrildi: AppShell (sidebar 5+1 nav + topbar), sinyal şeridi, istatistik kartları, sinyal listesi (panel filtresi), Bildirim Kutusu (onay + "dış gönderim yok" vurgusu), Odak görev tablosu. `api.ts` canlı API'ye bağlanır, backend yoksa mock'a düşer. Ariwon tasarım dili (`tokens.css`). Self-contained `ui/preview.html` üretildi ve İNSAN'a gönderildi. UI build + tüm typecheck/test (36/36) yeşil. Preview için tarayıcı ikilisi (Playwright/Chromium/snap) ağ politikasıyla engelli → self-contained HTML çözümü. |
+| **İNSAN (Ferhan)** | Karar: v0.3'e E14 Dashboard ile başla (preview); E13 için Gmail OAuth'u şimdi kur. |
+| **CODE** | branch `claude/laughing-volta-89nze9` · commit (v0.3/E14) |
+
+**Sıradaki:** E13 Gmail/Calendar readonly OAuth + intake (İNSAN: Google Cloud client + refresh token sağlayacak).
+
+---
+
 ## 2026-06-17 · Oturum #7 — v0.2 TAMAMLANDI: E10 Governance + E11 Haftalık Odak + API
 
 | Aktör | Kayıt |

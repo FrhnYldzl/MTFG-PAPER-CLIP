@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MTFG Paperclip · Canlı Kalp — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0a0a0f;--surface:#14141c;--surface-2:#1e1e29;--text:#f5f5ff;--text-muted:#8a8a9e;
+  --border:rgba(245,245,255,0.08);--primary:#5b47ff;--primary-2:#7a5cff;--primary-soft:rgba(91,71,255,0.12);
+  --signal-green:#00c9b8;--signal-yellow:#ffb800;--signal-red:#ff5c5c;
+  --signal-green-soft:rgba(0,201,184,0.12);--signal-yellow-soft:rgba(255,184,0,0.12);--signal-red-soft:rgba(255,92,92,0.12);
+  --font-display:"Space Grotesk","Satoshi",system-ui,sans-serif;--font-body:"Inter",system-ui,sans-serif;
+  --fs-xs:.75rem;--fs-sm:.875rem;--fs-lg:1.25rem;--fs-2xl:2rem;--fs-3xl:3rem;
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--motion-base:.3s ease-out;
+  --shadow-card:0 4px 24px rgba(0,0,0,.35);--glow-primary:0 0 0 1px var(--primary),0 0 24px rgba(91,71,255,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 500px at 12% -8%,rgba(91,71,255,.16),transparent 60%),radial-gradient(700px 460px at 100% 0%,rgba(0,201,184,.08),transparent 55%);background-attachment:fixed}
+h1,h2,h3,.display{font-family:var(--font-display);letter-spacing:-.01em}
+.app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+.sidebar{border-right:1px solid var(--border);padding:24px 16px;background:rgba(10,10,15,.6);position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:var(--primary);box-shadow:var(--glow-primary)}
+.brand b{font-family:var(--font-display);font-size:var(--fs-lg)}
+.brand small{color:var(--text-muted);display:block;font-size:var(--fs-xs)}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);color:var(--text-muted);cursor:pointer;font-size:var(--fs-sm);border:1px solid transparent;transition:all var(--motion-base);width:100%}
+.nav-item:hover{background:var(--surface-2);color:var(--text)}
+.nav-item.active{background:var(--primary-soft);color:var(--text);border-color:rgba(91,71,255,.4)}
+.nav-item .no{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;background:var(--surface-2);font-family:var(--font-display);font-size:var(--fs-xs)}
+.main{padding:24px 32px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.topbar h1{font-size:var(--fs-2xl)}
+.topbar .sub{color:var(--text-muted);font-size:var(--fs-sm);margin-top:2px}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:999px;font-size:var(--fs-sm)}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:grid;place-items:center;font-weight:700;font-size:var(--fs-sm)}
+.strip{display:flex;height:12px;border-radius:999px;overflow:hidden;border:1px solid var(--border);margin-bottom:24px}
+.strip>span{display:block}.strip .g{background:var(--signal-green)}.strip .y{background:var(--signal-yellow)}.strip .r{background:var(--signal-red)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-card)}
+.stat .label{color:var(--text-muted);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.04em}
+.stat .value{font-family:var(--font-display);font-size:var(--fs-3xl);line-height:1.1;margin-top:6px}
+.stat.r .value{color:var(--signal-red)}.stat.y .value{color:var(--signal-yellow)}.stat.p .value{color:var(--primary)}
+.cols{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px}
+.section-title{font-size:var(--fs-lg);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.muted{color:var(--text-muted)}
+.srow{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.srow:last-child{border-bottom:none}
+.badge{font-size:var(--fs-xs);font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.badge.RED{color:var(--signal-red);background:var(--signal-red-soft)}.badge.YELLOW{color:var(--signal-yellow);background:var(--signal-yellow-soft)}.badge.GREEN{color:var(--signal-green);background:var(--signal-green-soft)}
+.srow .body{flex:1;min-width:0}.srow .body b{font-size:var(--fs-sm)}.srow .body .meta{color:var(--text-muted);font-size:var(--fs-xs);margin-top:2px}
+.tag{font-size:10px;color:var(--text-muted);border:1px solid var(--border);padding:2px 7px;border-radius:6px}
+.notif{padding:12px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:10px;background:var(--surface-2)}
+.notif .head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.notif .subj{font-size:var(--fs-sm);font-weight:600}
+.notif pre{color:var(--text-muted);font-size:var(--fs-xs);white-space:pre-wrap;margin-top:8px;font-family:var(--font-body)}
+.prio{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px}
+.prio.Yuksek{color:var(--signal-red);background:var(--signal-red-soft)}.prio.Orta{color:var(--signal-yellow);background:var(--signal-yellow-soft)}
+.btn{margin-top:10px;padding:7px 12px;font-size:var(--fs-xs);border-radius:var(--radius-sm);border:1px solid rgba(91,71,255,.5);background:var(--primary-soft);color:var(--text);cursor:pointer;transition:all var(--motion-base)}
+.btn:hover{background:var(--primary)}
+.guardrail{font-size:10px;color:var(--signal-green);margin-top:6px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--text-muted);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;border-bottom:1px solid var(--border)}
+td{padding:11px 10px;border-bottom:1px solid var(--border);font-size:var(--fs-sm)}tr:last-child td{border-bottom:none}
+.chip{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px}
+.chip.TASLAK{color:var(--text-muted);background:var(--surface-2)}.chip.ACIK{color:var(--primary);background:var(--primary-soft)}.chip.KAPALI{color:var(--signal-green);background:var(--signal-green-soft)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="dot"></span><span><b>MTFG Paperclip</b><small>Canlı Kalp · v0.3</small></span></div>
+    <nav class="nav">
+      <div class="nav-item active"><span class="no">★</span> Genel Bakış</div>
+      <div class="nav-item"><span class="no">0</span> Strateji</div>
+      <div class="nav-item"><span class="no">1</span> Harita</div>
+      <div class="nav-item"><span class="no">2</span> Ürün · Hizmet · Yatırım</div>
+      <div class="nav-item"><span class="no">3</span> Network</div>
+      <div class="nav-item"><span class="no">4</span> Denetim</div>
+      <div class="nav-item"><span class="no">5</span> Odak</div>
+    </nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><h1>Komuta Paneli</h1><div class="sub">Ritim → Rutin → Tetikleyici → Sinyal → Odak · 17.06.2026</div></div>
+      <div class="topbar-right"><span class="pill">📥 Bildirim Kutusu <b>3</b></span><span class="avatar">FY</span></div>
+    </header>
+    <div class="strip" title="🟢 3  🟡 2  🔴 2"><span class="g" style="width:43%"></span><span class="y" style="width:28%"></span><span class="r" style="width:29%"></span></div>
+    <section class="stats">
+      <div class="card stat"><div class="label">Açık Sinyal</div><div class="value">7</div></div>
+      <div class="card stat r"><div class="label">🔴 Kırmızı</div><div class="value">2</div></div>
+      <div class="card stat y"><div class="label">🟡 Sarı</div><div class="value">2</div></div>
+      <div class="card stat p"><div class="label">Onay Bekleyen</div><div class="value">3</div></div>
+    </section>
+    <div class="cols">
+      <div class="card">
+        <div class="section-title">Sinyaller <span class="muted" style="font-size:.8rem">tüm paneller</span></div>
+        <div class="srow"><span class="badge RED">🔴</span><div class="body"><b>Juris · Tahsilat takibi</b><div class="meta">&gt;=14g gecikme → Tahsilat görevi + uyarı</div></div><span class="tag">1</span></div>
+        <div class="srow"><span class="badge RED">🔴</span><div class="body"><b>Fevup · Fevup Haftalık Özet</b><div class="meta">+2g gelmedi → İç bildirim taslağı</div></div><span class="tag">4</span></div>
+        <div class="srow"><span class="badge YELLOW">🟡</span><div class="body"><b>Juris · Network ritmi (Motor B)</b><div class="meta">1 görüşme (hedef altı) → Network çek ve görev aç</div></div><span class="tag">3</span></div>
+        <div class="srow"><span class="badge YELLOW">🟡</span><div class="body"><b>Meridyen · Toplantı (Motor A)</b><div class="meta">50s follow-up yok → İç hatırlatma + Odaka görev</div></div><span class="tag">5</span></div>
+        <div class="srow"><span class="badge GREEN">🟢</span><div class="body"><b>Juris · OPEX karşılama</b><div class="meta">&gt;=OPEX</div></div><span class="tag">1</span></div>
+        <div class="srow"><span class="badge GREEN">🟢</span><div class="body"><b>Tümü · Haftalık odak üretimi</b><div class="meta">üretildi</div></div><span class="tag">5</span></div>
+        <div class="srow"><span class="badge GREEN">🟢</span><div class="body"><b>Arivon · Product Hunt</b><div class="meta">top 5</div></div><span class="tag">2</span></div>
+      </div>
+      <div class="card">
+        <div class="section-title">📥 Bildirim Kutusu</div>
+        <div class="notif"><div class="head"><span class="subj">🔴 Juris · Tahsilat takibi</span><span class="prio Yuksek">Yüksek</span></div><pre>Tahsilat görevi + uyarı
+
+Gerekçe: &gt;=14g gecikme</pre><div class="guardrail">⛔ Dış gönderim yok — onay yalnızca insanın kararıdır</div><button class="btn">İNSAN olarak onayla</button></div>
+        <div class="notif"><div class="head"><span class="subj">🔴 Fevup · Fevup Haftalık Özet</span><span class="prio Yuksek">Yüksek</span></div><pre>İç bildirim taslağı (gönderim yok)
+
+Gerekçe: +2g gelmedi</pre><div class="guardrail">⛔ Dış gönderim yok — onay yalnızca insanın kararıdır</div><button class="btn">İNSAN olarak onayla</button></div>
+        <div class="notif"><div class="head"><span class="subj">2026-W25 — MTFG Odak</span><span class="prio Orta">Orta</span></div><pre># 2026-W25 — MTFG Odak
+
+🔴 Kırmızı (2) · 🟡 Sarı (2) · 📋 Açık görev (2)</pre><div class="guardrail">⛔ Dış gönderim yok — onay yalnızca insanın kararıdır</div><button class="btn">İNSAN olarak onayla</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title">📋 Odak — İş Kalemleri</div>
+      <table>
+        <thead><tr><th>#</th><th>Açıklama</th><th>İştirak</th><th>Sorumlu</th><th>Hedef</th><th>Sinyal</th><th>Durum</th></tr></thead>
+        <tbody>
+          <tr><td class="muted">11</td><td>Tahsilat takibi — gecikmiş fatura</td><td>juris</td><td class="muted">İcracı Ortak</td><td class="muted">2026-06-20</td><td><span class="badge RED">🔴</span></td><td><span class="chip ACIK">ACIK</span></td></tr>
+          <tr><td class="muted">12</td><td>Toplantı çıktısı gir: Tanışma görüşmesi</td><td>meridyen</td><td class="muted">İcracı Ortak</td><td class="muted">—</td><td><span class="muted">—</span></td><td><span class="chip TASLAK">TASLAK</span></td></tr>
+          <tr><td class="muted">13</td><td>Network görüşmesi: Ahmet K. (fintech)</td><td>juris</td><td class="muted">İcracı Ortak</td><td class="muted">—</td><td><span class="muted">—</span></td><td><span class="chip TASLAK">TASLAK</span></td></tr>
+          <tr><td class="muted">14</td><td>Lead → teklif dönüşü</td><td>juris</td><td class="muted">İcracı Ortak</td><td class="muted">2026-06-19</td><td><span class="badge YELLOW">🟡</span></td><td><span class="chip ACIK">ACIK</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>

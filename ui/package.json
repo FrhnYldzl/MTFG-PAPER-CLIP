@@ -1,13 +1,26 @@
 {
   "name": "@paperclip/ui",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "5+1 Dashboard (React). Gerçek uygulama v0.3 / E14'te gelecek.",
+  "description": "MTFG Paperclip 5+1 Dashboard (React + Vite). Ariwon tasarım dili.",
   "scripts": {
-    "build": "echo \"(ui placeholder — React dashboard v0.3/E14)\"",
-    "typecheck": "echo \"(ui placeholder)\"",
-    "lint": "echo \"(ui placeholder)\"",
-    "test": "echo \"(ui placeholder)\""
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(ui lint placeholder)\"",
+    "test": "echo \"(ui test placeholder)\""
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0"
   }
 }

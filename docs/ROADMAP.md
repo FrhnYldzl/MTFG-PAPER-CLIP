@@ -6,7 +6,7 @@ Versiyonlama: **SemVer + Faz**. `v0.x` = MVP (Faz -1/0), `v1.0` = ajan katmanı 
 |---|---|---|---|
 | **v0.1** | Faz 0 | İskelet & Defter (foundation) | 🚧 Devam ediyor |
 | v0.2 | Faz -1 | Üç Motor & Sinyal (Living Heart MVP) | ✅ Tamamlandı |
-| v0.3 | Faz 0+ | Tam Kütük & 5+1 Dashboard | ⏳ Planlandı |
+| v0.3 | Faz 0+ | Tam Kütük & 5+1 Dashboard | 🚧 Devam ediyor (E14 ✅) |
 | v1.0 | Faz 1 | Ajan Katmanı (semi-autonomous) | ⏳ Planlandı |
 
 ---

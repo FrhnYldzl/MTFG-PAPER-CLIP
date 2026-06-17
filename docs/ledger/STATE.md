@@ -5,10 +5,10 @@
 
 | Alan | Değer |
 |---|---|
-| **Aktif sürüm** | ✅ v0.2 — Üç Motor & Sinyal (Faz -1) TAMAMLANDI (E5–E11) |
+| **Aktif sürüm** | 🚧 v0.3 — Tam Kütük & 5+1 Dashboard · E14 ilk sürüm tamam |
 | **Aktif branch** | `claude/laughing-volta-89nze9` |
 | **Son güncelleme** | 2026-06-17 |
-| **Genel durum** | ✅ v0.1 + v0.2 (Canlı Kalp MVP) bitti. 3 Motor + sinyal + governance + haftalık odak + REST API. Gerçek Postgres'te tüm entegrasyonlar + canlı API smoke testi geçti (36/36 birim testi). Railway deploy en sona bırakıldı (İNSAN talebi). |
+| **Genel durum** | ✅ v0.1 + v0.2 bitti. 🚧 v0.3: E14 dashboard (React+Vite, Ariwon tasarım dili, API'ye bağlı + mock fallback) kuruldu; `ui/preview.html` self-contained preview üretildi. Sırada E13 Gmail OAuth (İNSAN kimlik bilgisi sağlayacak), E12 Scheduler, E15-E16. |
 | **Drive defteri** | [00. Cowork–İnsan–Code Defteri](https://docs.google.com/spreadsheets/d/1kI5U9ekNNdxWv60EEyLNsPNL5u90bFhFSblHkq0Lk-o) |
 
 ## Tamamlananlar
