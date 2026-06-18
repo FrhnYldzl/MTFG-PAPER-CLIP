@@ -26,7 +26,7 @@ function header(headers: { name?: string | null; value?: string | null }[], name
  * Canlı çalışması için Google kimlik bilgileri gerekir.
  */
 export async function fetchRecentMail(maxResults = 10): Promise<MailSummary[]> {
-  const auth = getOAuthClient();
+  const auth = await getOAuthClient();
   const gmail = google.gmail({ version: "v1", auth });
 
   const list = await gmail.users.messages.list({

@@ -23,12 +23,24 @@ export function App() {
   const [tasks, setTasks] = useState<TaskRow[]>([]);
   const [notifs, setNotifs] = useState<NotificationRow[]>([]);
   const [active, setActive] = useState<string>("ALL");
+  const [connected, setConnected] = useState<boolean>(false);
+  const [busy, setBusy] = useState<boolean>(false);
 
   async function load() {
     const [s, t, n] = await Promise.all([api.signals(), api.tasks(), api.notifications()]);
     setSignals(s); setTasks(t); setNotifs(n);
   }
-  useEffect(() => { void load(); }, []);
+  useEffect(() => { void load(); void api.googleStatus().then((r) => setConnected(r.connected)); }, []);
+
+  async function runIntake() {
+    setBusy(true);
+    try {
+      const r = await api.runIntake();
+      if (!r.configured) alert("Gmail bağlı değil. Önce 'Gmail'e Bağlan'a tıkla.");
+      else { alert(`Intake tamam: ${r.processed} mail işlendi.`); await load(); }
+    } catch (e) { alert((e as Error).message); }
+    finally { setBusy(false); }
+  }
 
   const counts = useMemo(() => {
     const c = { GREEN: 0, YELLOW: 0, RED: 0 };
@@ -82,6 +94,15 @@ export function App() {
         <div className="runner">
           <span className="eyebrow">MTFG · Canlı Kalp · {new Date().toLocaleDateString("tr-TR")}</span>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            {connected ? (
+              <button className="pill" onClick={runIntake} disabled={busy}
+                title="Gelen kutusunu tara, görev/sinyal üret">
+                {busy ? "⏳ Taranıyor…" : "↻ Intake çalıştır"}
+              </button>
+            ) : (
+              <a className="pill" href="/auth/google"
+                title="Gmail'i bağla (readonly)">🔗 Gmail'e Bağlan</a>
+            )}
             <span className="pill">📥 Bildirim Kutusu <b>{notifs.length}</b></span>
             <span className="avatar">FY</span>
           </div>

@@ -10,7 +10,29 @@
 
 Bunlar `.env` (lokal) veya Railway değişkenlerine konur. **Asla repo'ya commit edilmez.**
 
-## Adım adım
+---
+
+## YÖNTEM A — Tarayıcıdan bağlama (ÖNERİLEN, terminal gerekmez)
+
+Uygulama deploy edildikten sonra tek tık ile bağlanırsın; refresh token **DB'ye** kaydedilir.
+
+1. **OAuth client tipi: Web application** oluştur (Desktop değil).
+   - **Authorized redirect URIs**'e şunu ekle:
+     `https://<app>.up.railway.app/auth/google/callback`
+     (Railway domain'in; ör. `https://paperclip-production-afa5.up.railway.app/auth/google/callback`)
+2. Client ID + Secret'i **Railway Variables**'a gir: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`.
+   (İstersen `GOOGLE_REDIRECT_URI`'yi de aynı callback adresiyle gir; boşsa host'tan türetilir.)
+3. Deploy sonrası panelde **"🔗 Gmail'e Bağlan"**'a tıkla (veya `…/auth/google` adresine git).
+4. Test user hesabınla onayla → "✅ Gmail bağlandı" görürsün. Token DB'ye yazıldı.
+5. Panelde **"↻ Intake çalıştır"** ile mailleri hemen çek (ya da günlük 08:00 cron'unu bekle).
+
+> Sadece "Testing" modundaki **test user**'lar onaylayabilir → kimin bağlanabileceği Google tarafında sınırlıdır.
+
+---
+
+## YÖNTEM B — CLI ile refresh token (lokal terminal gerektirir)
+
+### Adım adım
 
 ### 1. Google Cloud projesi + API'leri aç
 1. https://console.cloud.google.com → proje oluştur (ör. "mtfg-paperclip").

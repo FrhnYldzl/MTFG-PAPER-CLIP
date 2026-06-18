@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { config } from "./config.js";
 import { apiRouter } from "./routes/api.js";
+import { authRouter } from "./routes/auth.js";
 import { dailyRun, weeklyRun, monthlyRun, quarterlyRun } from "./jobs/jobs.js";
 
 const app: express.Express = express();
@@ -23,6 +24,8 @@ app.get("/health", (_req, res) => {
 
 // API
 app.use("/api", apiRouter);
+// Google bağlama akışı (tarayıcıdan tek seferlik)
+app.use("/auth", authRouter);
 
 /**
  * Tek servis: derlenmiş React paneli (ui/dist) sunucudan servis edilir.
@@ -35,7 +38,12 @@ if (existsSync(uiDist)) {
   app.use(express.static(uiDist));
   // SPA fallback (API/health hariç tüm yollar index.html'e)
   app.get("*", (req, res, next) => {
-    if (req.path.startsWith("/api") || req.path === "/health") return next();
+    if (
+      req.path.startsWith("/api") ||
+      req.path.startsWith("/auth") ||
+      req.path === "/health"
+    )
+      return next();
     res.sendFile(join(uiDist, "index.html"));
   });
   console.log(`[server] UI servis ediliyor: ${uiDist}`);

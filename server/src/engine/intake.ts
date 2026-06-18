@@ -69,7 +69,7 @@ export async function processMail(mail: MailSummary): Promise<{
  * @returns işlenen mail sayısı (kimlik bilgisi yoksa -1).
  */
 export async function intakeFromMail(maxResults = 10): Promise<number> {
-  if (!googleConfigured()) return -1;
+  if (!(await googleConfigured())) return -1;
   const mails = await fetchRecentMail(maxResults);
   for (const mail of mails) await processMail(mail);
   return mails.length;

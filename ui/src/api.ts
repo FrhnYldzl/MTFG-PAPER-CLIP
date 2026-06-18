@@ -64,6 +64,15 @@ export const api = {
     if (!res.ok) throw new Error((await res.json()).error ?? "Onay başarısız");
     return res.json();
   },
+  /** Google bağlı mı? (backend yoksa false). */
+  googleStatus: () =>
+    get<{ connected: boolean }>("/auth/status", { connected: false }),
+  /** Gelen kutusunu tara → görev/sinyal üret. */
+  runIntake: async (): Promise<{ processed: number; configured: boolean }> => {
+    const res = await fetch("/api/intake/mail", { method: "POST" });
+    if (!res.ok) throw new Error((await res.json()).error ?? "Intake başarısız");
+    return res.json();
+  },
 };
 
 /** 5+1 dashboard tanımları. */
